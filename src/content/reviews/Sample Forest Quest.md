@@ -1,6 +1,8 @@
 ---
 title: Sample Forest Quest
 rating: Superb, a real comfort game
+enjoyment: Pure joy
+year: 2024
 platform: PC
 played: 2026-03-14
 status: Completed

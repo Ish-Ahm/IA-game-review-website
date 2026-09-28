@@ -1,6 +1,7 @@
 ---
 title: Sample Space Racer
 rating: Fun for a weekend
+year: 2022
 platform: Switch
 played: 2026-06-02
 status: Dropped

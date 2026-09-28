@@ -8,7 +8,7 @@ interface Props {
 }
 
 const { review } = Astro.props;
-const { title, rating, platform, played, status, cover } = review.data;
+const { title, rating, enjoyment, year, platform, status, cover } = review.data;
 const href = `/reviews/${review.id}`;
 ---
 
@@ -17,7 +17,7 @@ const href = `/reviews/${review.id}`;
 	data-title={title.toLowerCase()}
 	data-platform={platform.toLowerCase()}
 	data-status={status}
-	data-played={played.getTime()}
+	data-year={year ?? ""}
 >
 	<td class="review-row__cover">
 		<a href={href} tabindex="-1" aria-hidden="true">
@@ -31,13 +31,10 @@ const href = `/reviews/${review.id}`;
 		</a>
 	</td>
 	<td class="review-row__title"><a href={href}>{title}</a></td>
+	<td class="review-row__year">{year ?? "\u2014"}</td>
 	<td class="review-row__platform">{platform}</td>
-	<td class="review-row__played">
-		<time datetime={played.toISOString()}>
-			{played.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" })}
-		</time>
-	</td>
 	<td class="review-row__rating"><Rating value={rating} /></td>
+	<td class="review-row__enjoyment">{enjoyment ? <Rating value={enjoyment} /> : "\u2014"}</td>
 	<td class="review-row__status">{status}</td>
 </tr>
 
@@ -84,11 +81,12 @@ const href = `/reviews/${review.id}`;
 	}
 
 	.review-row__platform,
+	.review-row__enjoyment,
 	.review-row__status {
 		color: var(--color-text-muted);
 	}
 
-	.review-row__played {
+	.review-row__year {
 		font-family: var(--font-mono);
 		font-size: 0.9rem;
 		color: var(--color-text-muted);

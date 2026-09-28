@@ -22,7 +22,9 @@ npm run preview  # preview the built site
    | Field | Notes |
    |---|---|
    | `title` | Game title |
-   | `rating` | Any text you like, for example `Superb`. Wrap it in quotes if it contains a colon |
+   | `rating` | Overall rating. Any text you like, for example `Superb`. Wrap it in quotes if it contains a colon |
+   | `enjoyment` | Optional. Enjoyment rating, also free text. Can be left blank |
+   | `year` | Optional. Release year of the game, for example `2019`. Can be left blank |
    | `platform` | `PC`, `Steam Deck`, `PS5`, `Switch` or `Xbox` |
    | `played` | Date in `YYYY-MM-DD` format |
    | `status` | `Completed`, `100%`, `Playing` or `Dropped` |

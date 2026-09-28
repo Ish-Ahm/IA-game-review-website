@@ -14,7 +14,7 @@ export async function getStaticPaths() {
 }
 
 const { review } = Astro.props;
-const { title, rating, platform, played, status, cover } = review.data;
+const { title, rating, enjoyment, year, platform, played, status, cover } = review.data;
 const { Content } = await render(review);
 ---
 
@@ -31,8 +31,10 @@ const { Content } = await render(review);
 		}
 
 		<dl class="review__details">
-			<dt>Rating</dt>
+			<dt>Overall rating</dt>
 			<dd><Rating value={rating} /></dd>
+			{enjoyment && <dt>Enjoyment rating</dt><dd><Rating value={enjoyment} /></dd>}
+			{year && <dt>Year</dt><dd>{year}</dd>}
 			<dt>Platform</dt>
 			<dd>{platform}</dd>
 			<dt>Played</dt>

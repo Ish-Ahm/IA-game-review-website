@@ -16,6 +16,9 @@
 	--font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 	--font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
 
+	/* Overall scale: everything is sized in rem, so this scales the whole site */
+	--root-font-size: 87.5%;
+
 	/* Layout */
 	--content-max-width: 69rem;
 
@@ -38,6 +41,7 @@
 }
 
 html {
+	font-size: var(--root-font-size);
 	background: var(--color-background);
 	color-scheme: dark;
 }

@@ -14,6 +14,10 @@ const reviews = defineCollection({
 			platform: z.enum(["PC", "Steam Deck", "PS5", "Switch", "Xbox"]),
 			played: z.coerce.date(),
 			status: z.enum(["Completed", "100%", "Playing", "Dropped"]),
+			// Release year of the game, for example 2019.
+			year: z.number().int().nullish(),
+			// Second rating, for how much I enjoyed it, as free text.
+			enjoyment: z.string().trim().nullish(),
 			cover: image().optional(),
 		}),
 });

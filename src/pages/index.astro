@@ -47,9 +47,10 @@ const collage = reviews.filter((r) => r.data.cover).slice(0, 12);
 			<tr>
 				<th scope="col"><span class="visually-hidden">Cover</span></th>
 				<th scope="col"><button type="button" class="sort" data-sort="title">Game</button></th>
+				<th scope="col"><button type="button" class="sort" data-sort="year">Year</button></th>
 				<th scope="col"><button type="button" class="sort" data-sort="platform">Platform</button></th>
-				<th scope="col"><button type="button" class="sort" data-sort="played">Played</button></th>
-				<th scope="col">Rating</th>
+				<th scope="col">Overall rating</th>
+				<th scope="col">Enjoyment rating</th>
 				<th scope="col">Status</th>
 			</tr>
 		</thead>
@@ -245,7 +246,7 @@ const collage = reviews.filter((r) => r.data.cover).slice(0, 12);
 			sortButtons.forEach((b) => delete b.dataset.direction);
 			button.dataset.direction = direction;
 
-			const numeric = key === "played";
+			const numeric = key === "year";
 			const value = (row: HTMLTableRowElement) => row.dataset[key] ?? "";
 			rows.sort((a, b) => {
 				const result = numeric ? Number(value(a)) - Number(value(b)) : value(a).localeCompare(value(b));
