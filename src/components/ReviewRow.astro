@@ -17,7 +17,6 @@ const href = `/reviews/${review.id}`;
 	data-title={title.toLowerCase()}
 	data-platform={platform.toLowerCase()}
 	data-status={status}
-	data-rating={rating}
 	data-played={played.getTime()}
 >
 	<td class="review-row__cover">
@@ -44,7 +43,7 @@ const href = `/reviews/${review.id}`;
 
 <style>
 	.review-row {
-		border-bottom: 1px solid var(--color-border);
+		border-bottom: var(--row-line-width) solid var(--color-border-strong);
 	}
 
 	.review-row:hover {

@@ -1,6 +1,6 @@
 ---
 title: Sample Castle Puzzler
-rating: 9
+rating: Brilliant, go play it
 platform: Steam Deck
 played: 2026-08-21
 status: 100%

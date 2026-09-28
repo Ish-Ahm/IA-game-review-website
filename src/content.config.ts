@@ -9,8 +9,8 @@ const reviews = defineCollection({
 	schema: ({ image }) =>
 		z.object({
 			title: z.string(),
-			// Whole numbers from 0 to 10.
-			rating: z.number().int().min(0).max(10),
+			// Free text, for example "Superb" or "Great, with a few rough edges".
+			rating: z.string().trim().min(1),
 			platform: z.enum(["PC", "Steam Deck", "PS5", "Switch", "Xbox"]),
 			played: z.coerce.date(),
 			status: z.enum(["Completed", "100%", "Playing", "Dropped"]),

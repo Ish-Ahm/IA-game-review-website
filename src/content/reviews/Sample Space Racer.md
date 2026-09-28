@@ -1,6 +1,6 @@
 ---
 title: Sample Space Racer
-rating: 6
+rating: Fun for a weekend
 platform: Switch
 played: 2026-06-02
 status: Dropped

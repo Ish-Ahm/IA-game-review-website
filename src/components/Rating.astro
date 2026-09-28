@@ -1,19 +1,16 @@
 ---
-// Shows a rating out of 10, for example "8/10".
+// Shows the custom rating text, for example "Superb".
 interface Props {
-	value: number;
+	value: string;
 }
 
 const { value } = Astro.props;
 ---
 
-<span class="rating" aria-label={`${value} out of 10`}>
-	<span class="rating__value" aria-hidden="true">{value}/10</span>
-</span>
+<span class="rating">{value}</span>
 
 <style>
 	.rating {
-		font-family: var(--font-mono);
 		font-weight: bold;
 		color: var(--color-highlight);
 	}
