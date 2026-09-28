@@ -158,11 +158,11 @@ const collage = reviews.filter((r) => r.data.cover).slice(0, 12);
 	/* Fixed column widths. Long text is cut off with an ellipsis. The Status column
 	   (no width set) takes whatever space is left over. */
 	.review-table__col-game {
-		width: 35%;
+		width: 30%;
 	}
 
 	.review-table__col-year {
-		width: 6rem;
+		width: 7rem;
 	}
 
 	.review-table__col-platform {
@@ -174,7 +174,7 @@ const collage = reviews.filter((r) => r.data.cover).slice(0, 12);
 	}
 
 	.review-table__col-enjoyment {
-		width: 16%;
+		width: 20%;
 	}
 
 	.review-table th {
@@ -233,7 +233,10 @@ const collage = reviews.filter((r) => r.data.cover).slice(0, 12);
 	// Small, framework-free script: filter tabs, search and sortable columns.
 	const table = document.querySelector<HTMLTableElement>(".review-table")!;
 	const body = table.tBodies[0];
-	const rows = Array.from(body.querySelectorAll<HTMLTableRowElement>("tr"));
+	const rows = Array.from(body.querySelectorAll<HTMLTableRowElement>("tr.review-row"));
+	// Each row has a hidden "detail" row after it, which opens when the row is clicked.
+	const detailFor = (row: HTMLTableRowElement) => document.getElementById(row.dataset.detail!)!;
+	const toggleFor = (row: HTMLTableRowElement) => row.querySelector<HTMLButtonElement>(".review-row__toggle")!;
 	const emptyMessage = document.querySelector<HTMLElement>(".review-table__empty")!;
 	const searchInput = document.querySelector<HTMLInputElement>("#site-search");
 	const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>(".tabs__tab"));
@@ -250,6 +253,7 @@ const collage = reviews.filter((r) => r.data.cover).slice(0, 12);
 			const text = `${row.dataset.title} ${row.dataset.platform}`;
 			const matchesSearch = !query || text.includes(query);
 			row.hidden = !(matchesTab && matchesSearch);
+			detailFor(row).hidden = row.hidden || toggleFor(row).getAttribute("aria-expanded") !== "true";
 			if (!row.hidden) visible++;
 		}
 		emptyMessage.hidden = visible > 0;
@@ -270,6 +274,16 @@ const collage = reviews.filter((r) => r.data.cover).slice(0, 12);
 	});
 	searchInput?.form?.addEventListener("submit", (event) => event.preventDefault());
 
+	// Clicking anywhere on a row opens or closes its detail panel.
+	for (const row of rows) {
+		row.addEventListener("click", () => {
+			const toggle = toggleFor(row);
+			const open = toggle.getAttribute("aria-expanded") !== "true";
+			toggle.setAttribute("aria-expanded", String(open));
+			detailFor(row).hidden = !open;
+		});
+	}
+
 	const sortButtons = Array.from(document.querySelectorAll<HTMLButtonElement>(".sort"));
 	for (const button of sortButtons) {
 		button.addEventListener("click", () => {
@@ -284,7 +298,10 @@ const collage = reviews.filter((r) => r.data.cover).slice(0, 12);
 				const result = numeric ? Number(value(a)) - Number(value(b)) : value(a).localeCompare(value(b));
 				return direction === "asc" ? result : -result;
 			});
-			rows.forEach((row) => body.appendChild(row));
+			rows.forEach((row) => {
+				body.appendChild(row);
+				body.appendChild(detailFor(row));
+			});
 		});
 	}
 

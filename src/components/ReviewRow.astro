@@ -10,6 +10,21 @@ interface Props {
 const { review } = Astro.props;
 const { title, rating, enjoyment, year, platform, status, cover } = review.data;
 const href = `/reviews/${review.id}`;
+const detailId = `review-detail-${review.id}`;
+
+// A short preview taken from the first paragraph of the review (skipping
+// spoiler blocks and other HTML), with basic Markdown symbols removed.
+const firstParagraph =
+	(review.body ?? "")
+		.split(/\n\s*\n/)
+		.map((block) => block.trim())
+		.find((block) => block && !block.startsWith("<")) ?? "";
+const plain = firstParagraph
+	.replace(/\[([^\]]*)\]\([^)]*\)/g, "$1")
+	.replace(/[*_`#>]/g, "")
+	.replace(/\s+/g, " ")
+	.trim();
+const excerpt = plain.length > 320 ? `${plain.slice(0, 320).replace(/\s+\S*$/, "")}…` : plain;
 ---
 
 <tr
@@ -18,9 +33,10 @@ const href = `/reviews/${review.id}`;
 	data-platform={platform.toLowerCase()}
 	data-status={status}
 	data-year={year ?? ""}
+	data-detail={detailId}
 >
 	<td class="review-row__cover">
-		<a href={href} tabindex="-1" aria-hidden="true">
+		<span class="review-row__thumb">
 			{
 				cover ? (
 					<Image src={cover} alt="" width={64} height={88} class="review-row__image" />
@@ -28,19 +44,66 @@ const href = `/reviews/${review.id}`;
 					<span class="review-row__placeholder"></span>
 				)
 			}
-		</a>
+		</span>
 	</td>
-	<td class="review-row__title" title={title}><a href={href}>{title}</a></td>
-	<td class="review-row__year">{year ?? "\u2014"}</td>
+	<td class="review-row__title" title={title}>
+		<button type="button" class="review-row__toggle" aria-expanded="false" aria-controls={detailId}>
+			{title}
+		</button>
+	</td>
+	<td class="review-row__year">{year ?? "—"}</td>
 	<td class="review-row__platform" title={platform}>{platform}</td>
 	<td class="review-row__rating" title={rating}><Rating value={rating} /></td>
-	<td class="review-row__enjoyment" title={enjoyment ?? undefined}>{enjoyment ? <Rating value={enjoyment} /> : "\u2014"}</td>
+	<td class="review-row__enjoyment" title={enjoyment ?? undefined}>{enjoyment ? <Rating value={enjoyment} /> : "—"}</td>
 	<td class="review-row__status">{status}</td>
+</tr>
+<tr class="review-detail" id={detailId} hidden>
+	<td colspan="7">
+		<div class="review-detail__panel">
+			<div class="review-detail__cover">
+				{
+					cover ? (
+						<Image src={cover} alt={`Cover art for ${title}`} width={300} height={400} class="review-detail__image" />
+					) : (
+						<div class="review-detail__placeholder" aria-hidden="true"></div>
+					)
+				}
+			</div>
+
+			<div class="review-detail__content">
+				<h2 class="review-detail__title">
+					{title}
+					{year && <span class="review-detail__year">({year})</span>}
+				</h2>
+				<p class="review-detail__meta">{platform} · {status}</p>
+
+				<div class="review-detail__scores">
+					<div class="review-detail__score">
+						<span class="review-detail__score-label">Overall rating</span>
+						<span class="review-detail__score-value"><Rating value={rating} /></span>
+					</div>
+					{
+						enjoyment && (
+							<div class="review-detail__score review-detail__score--end">
+								<span class="review-detail__score-label">Enjoyment rating</span>
+								<span class="review-detail__score-value"><Rating value={enjoyment} /></span>
+							</div>
+						)
+					}
+				</div>
+
+				{excerpt && <p class="review-detail__excerpt">{excerpt}</p>}
+
+				<a class="review-detail__link" href={href}>Read full review</a>
+			</div>
+		</div>
+	</td>
 </tr>
 
 <style>
 	.review-row {
 		border-bottom: var(--row-line-width) solid var(--color-border-strong);
+		cursor: pointer;
 	}
 
 	.review-row:hover {
@@ -60,7 +123,7 @@ const href = `/reviews/${review.id}`;
 		width: 3.5rem;
 	}
 
-	.review-row__cover a {
+	.review-row__thumb {
 		display: block;
 		width: 2rem;
 		height: 2.75rem;
@@ -85,9 +148,22 @@ const href = `/reviews/${review.id}`;
 		white-space: pre;
 	}
 
-	.review-row__title a {
+	/* The game name is a real button (for keyboard users), styled as plain text.
+	   Clicking anywhere on the row does the same thing. */
+	.review-row__toggle {
+		display: block;
+		max-width: 100%;
+		padding: 0;
+		background: none;
+		border: 0;
 		color: var(--color-text);
+		font: inherit;
 		font-weight: 600;
+		text-align: left;
+		cursor: pointer;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 
 	.review-row__platform,
@@ -101,5 +177,124 @@ const href = `/reviews/${review.id}`;
 		font-size: 0.9rem;
 		color: var(--color-text-muted);
 		white-space: nowrap;
+	}
+
+	/* The expanded panel that opens under a row */
+	.review-detail > td {
+		padding: var(--space-3) 0 var(--space-4);
+		border-bottom: var(--row-line-width) solid var(--color-border-strong);
+	}
+
+	.review-detail__panel {
+		display: flex;
+		gap: var(--space-5);
+		padding: var(--space-4);
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius);
+	}
+
+	.review-detail__cover {
+		flex: 0 0 12rem;
+	}
+
+	.review-detail__image,
+	.review-detail__placeholder {
+		display: block;
+		width: 100%;
+		aspect-ratio: 3 / 4;
+		object-fit: cover;
+		border-radius: var(--radius);
+	}
+
+	.review-detail__placeholder {
+		background: var(--color-border);
+	}
+
+	.review-detail__content {
+		flex: 1;
+		min-width: 0;
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-3);
+	}
+
+	.review-detail__title {
+		margin: 0;
+		font-size: 1.75rem;
+		line-height: 1.2;
+	}
+
+	.review-detail__year {
+		color: var(--color-text-muted);
+		font-weight: normal;
+		font-size: 1.1rem;
+	}
+
+	.review-detail__meta {
+		margin: 0;
+		color: var(--color-text-muted);
+		font-family: var(--font-mono);
+		font-size: 0.8rem;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+	}
+
+	.review-detail__scores {
+		display: flex;
+		justify-content: space-between;
+		gap: var(--space-4);
+		padding: var(--space-4);
+		background: var(--color-surface-hover);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius);
+	}
+
+	.review-detail__score {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-1);
+		min-width: 0;
+	}
+
+	.review-detail__score--end {
+		text-align: right;
+	}
+
+	.review-detail__score-label {
+		color: var(--color-text-muted);
+		font-size: 0.8rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+	}
+
+	.review-detail__score-value {
+		font-size: 1.6rem;
+		line-height: 1.2;
+	}
+
+	.review-detail__excerpt {
+		margin: 0;
+		color: var(--color-text-muted);
+	}
+
+	.review-detail__link {
+		align-self: flex-start;
+		margin-top: auto;
+		padding: var(--space-2) var(--space-3);
+		border: 1px solid var(--color-border-strong);
+		border-radius: var(--radius);
+	}
+
+	@media (max-width: 40rem) {
+		.review-detail__panel {
+			flex-direction: column;
+		}
+
+		.review-detail__cover {
+			flex-basis: auto;
+			max-width: 12rem;
+		}
 	}
 </style>
