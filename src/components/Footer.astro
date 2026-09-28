@@ -1,0 +1,23 @@
+---
+// The year is worked out when the site is built.
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+	<p>© {year} Ishaan</p>
+</footer>
+
+<style>
+	.site-footer {
+		max-width: var(--content-max-width);
+		width: 100%;
+		margin: 0 auto;
+		padding: var(--space-3);
+		color: var(--color-text-muted);
+		border-top: 1px solid var(--color-border);
+	}
+
+	.site-footer p {
+		margin: 0;
+	}
+</style>
