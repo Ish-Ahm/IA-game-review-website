@@ -145,7 +145,7 @@ const collage = reviews.filter((r) => r.data.cover).slice(0, 12);
 		padding: var(--space-3) var(--space-2);
 		border-bottom: var(--row-line-width) solid var(--color-border-strong);
 		color: var(--color-text-muted);
-		font-weight: 600;
+		font-weight: 700;
 		font-size: 0.9rem;
 	}
 
@@ -160,19 +160,15 @@ const collage = reviews.filter((r) => r.data.cover).slice(0, 12);
 
 	.sort::after {
 		content: " \2195";
-		opacity: 0.5;
+		color: var(--color-highlight);
 	}
 
 	.sort[data-direction="asc"]::after {
 		content: " \2191";
-		opacity: 1;
-		color: var(--color-highlight);
 	}
 
 	.sort[data-direction="desc"]::after {
 		content: " \2193";
-		opacity: 1;
-		color: var(--color-highlight);
 	}
 
 	.review-table__empty {
