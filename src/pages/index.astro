@@ -20,15 +20,6 @@ const collage = reviews.filter((r) => r.data.cover).slice(0, 12);
 				Reviews of {reviews.length} games I have played over the years, including ratings, notes and
 				where I played them. Placeholder text: replace this with your own introduction.
 			</p>
-
-			<div class="tabs" role="group" aria-label="Filter reviews">
-				<button class="tabs__tab" type="button" data-filter="all" aria-pressed="true">
-					All <span class="tabs__count">{reviews.length}</span>
-				</button>
-				<button class="tabs__tab" type="button" data-filter="completed" aria-pressed="false">
-					Completed <span class="tabs__count">{completedCount}</span>
-				</button>
-			</div>
 		</div>
 
 		<div class="collage" aria-hidden="true">
@@ -39,6 +30,15 @@ const collage = reviews.filter((r) => r.data.cover).slice(0, 12);
 			}
 		</div>
 	</section>
+
+	<div class="tabs" role="group" aria-label="Filter reviews">
+		<button class="tabs__tab" type="button" data-filter="all" aria-pressed="true">
+			All <span class="tabs__count">{reviews.length}</span>
+		</button>
+		<button class="tabs__tab" type="button" data-filter="completed" aria-pressed="false">
+			Completed <span class="tabs__count">{completedCount}</span>
+		</button>
+	</div>
 
 	<table class="review-table">
 		<colgroup>
@@ -98,6 +98,9 @@ const collage = reviews.filter((r) => r.data.cover).slice(0, 12);
 
 	.tabs {
 		display: flex;
+		width: fit-content;
+		max-width: 20rem;
+		margin: var(--space-4) 0;
 		border: 1px solid var(--color-border);
 		border-radius: var(--radius);
 		overflow: hidden;
