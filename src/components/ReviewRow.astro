@@ -63,7 +63,7 @@ const excerpt = plain.length > 320 ? `${plain.slice(0, 320).replace(/\s+\S*$/, "
 			<div class="review-detail__cover">
 				{
 					cover ? (
-						<Image src={cover} alt={`Cover art for ${title}`} width={300} height={400} class="review-detail__image" />
+						<Image src={cover} alt={`Cover art for ${title}`} width={300} class="review-detail__image" />
 					) : (
 						<div class="review-detail__placeholder" aria-hidden="true"></div>
 					)
@@ -195,20 +195,23 @@ const excerpt = plain.length > 320 ? `${plain.slice(0, 320).replace(/\s+\S*$/, "
 	}
 
 	.review-detail__cover {
-		flex: 0 0 12rem;
+		flex: 0 0 18rem;
 	}
 
-	.review-detail__image,
-	.review-detail__placeholder {
+	/* The cover keeps its own proportions, so it is never cropped */
+	.review-detail__image {
 		display: block;
 		width: 100%;
-		aspect-ratio: 3 / 4;
-		object-fit: cover;
+		height: auto;
 		border-radius: var(--radius);
 	}
 
+	/* The empty box used when a review has no cover */
 	.review-detail__placeholder {
+		width: 100%;
+		aspect-ratio: 3 / 4;
 		background: var(--color-border);
+		border-radius: var(--radius);
 	}
 
 	.review-detail__content {
