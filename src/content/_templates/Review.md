@@ -1,11 +1,11 @@
 ---
 title: <% tp.file.title %>
-rating:
-enjoyment:
+cover:
 year:
 platform:
+rating:
+enjoyment:
 status:
-cover:
 ---
 
 Write your spoiler-free review here.

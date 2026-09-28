@@ -1,0 +1,24 @@
+- [ ] Spider-Man PS4 / Remastered
+      *(to crib over the changes in the remasters, and what good things they kept in the remaster from the PS4 version)*
+- [ ] Spider-Man Miles Morales
+- [ ] Spider-Man 2 PS5
+- [ ] Red Dead Redemption
+- [ ] Red Dead Redemption 2
+- [ ] Grand Theft Auto III
+- [ ] Grand Theft Auto Vice City
+- [ ] Grand Theft Auto San Andreas *(in progress)*
+- [ ] Grand Theft Auto IV
+      *(probably need to play it again someday, it has been enough time that I have forgotten some plot beats in the middle of the game, also skipped over a lot for the 30 hrs story completion trophy)*
+- [ ] Grand Theft Auto V (story mode)
+- [ ] Uncharted 1
+- [ ] Uncharted 2
+- [ ] Uncharted 3
+- [ ] Uncharted 4
+- [ ] Uncharted Lost Legacy
+- [ ] Batman Arkham Asylum
+- [ ] Batman Arkham City
+- [ ] Batman Arkham Origins
+- [ ] Batman Arkham Knight
+- [ ] Max Payne 3
+- [ ] South Park: The Stick of Truth
+- [ ] 

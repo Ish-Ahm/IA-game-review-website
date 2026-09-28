@@ -11,14 +11,10 @@
             "id": "f448ba473618dc7d",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Sample Space Racer.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "Sample Space Racer"
+              "title": "New tab"
             }
           }
         ]
@@ -99,7 +95,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Sample Space Racer.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -118,7 +113,6 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Sample Space Racer.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -161,7 +155,6 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Sample Space Racer.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -190,10 +183,19 @@
   },
   "active": "f448ba473618dc7d",
   "lastOpenFiles": [
-    "Sample Castle Puzzler.md",
+    "Spider-Man PS4.md",
+    "entries/Spider-Man PS4.md",
+    "entries/007 First Light.md",
+    "entries",
     "007 First Light.md",
-    "Sample Space Racer.md",
+    "covers/Spider-Man PS4.png",
+    "Game Reviews (to be made).md",
+    "007 First Light (Copy).md",
+    "007 First Light.md.tmp.624.7ce3b3b3afc5",
+    "covers/007 First Light.png",
     "Sample Forest Quest.md",
+    "Sample Space Racer.md",
+    "Sample Castle Puzzler.md",
     "covers/sample-space-racer.svg",
     "covers/sample-forest-quest.svg"
   ]

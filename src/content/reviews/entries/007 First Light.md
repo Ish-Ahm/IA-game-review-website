@@ -1,11 +1,11 @@
 ---
 title: 007 First Light
-rating: 8/10 (not 007/10)
+cover: ../covers/007 First Light.png
 platform: PC
-played:
+rating: 8/10 (not 007/10)
+enjoyment: 9.5/10
 status: Completed
 ---
-
 IOI surprises us with an amazing linear action game that is the lovechild of both Uncharted and Hitman, my favorite 2 game franchises.
 
 I have played Hitman World of Assassination trilogy a LOT at this point, it is truly one of the best stealth sandbox games ever made (play it please if you love stealth games). I was thus excited for anything IOI would make, and a James Bond game sounded amazing with their espionage experience.

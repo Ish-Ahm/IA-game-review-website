@@ -63,7 +63,8 @@ src/
     ├── _templates/
     │   └── Review.md       ← Templater template
     └── reviews/
-        ├── <Game Title>.md
+        ├── entries/
+        │   └── <Game Title>.md
         └── covers/
             └── <image files>
 ```
@@ -78,15 +79,15 @@ Each review file has YAML frontmatter with these fields:
 | `rating` | string | yes | Overall rating, custom text, not a number (for example "Superb") |
 | `enjoyment` | string | no | Enjoyment rating, custom text, shown next to the overall rating |
 | `year` | number | no | Release year of the game |
-| `platform` | enum | yes | `PC`, `Steam Deck`, `PS5`, `Switch`, `Xbox` |
+| `platform` | string | yes | Free text, for example `PC` or `PS5` |
 | `status` | enum | yes | `Completed`, `100%`, `Playing`, `Dropped` |
-| `cover` | image | no | Relative path such as `covers/game-name.jpg`, use Astro's `image()` helper |
+| `cover` | image | no | Relative path such as `../covers/game-name.jpg` (reviews live in `reviews/entries`), use Astro's `image()` helper |
 
 Rules for the schema:
 
 - Validate `rating` with `z.string().trim().min(1)`. It is free text chosen by me, so it is never sorted or calculated.
 - Any field added in the future must be `.optional()` or have a `.default()` so existing reviews never break.
-- The glob loader must only read `*.md` directly inside `src/content/reviews`, so `_templates/` and `.obsidian/` are ignored.
+- The glob loader must only read `*.md` directly inside `src/content/reviews/entries`, so `_templates/` and `.obsidian/` are ignored.
 - File names may contain spaces and capitals (Obsidian style). Make sure generated URLs are clean slugs.
 
 ## Obsidian compatibility

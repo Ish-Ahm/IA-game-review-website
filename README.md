@@ -16,7 +16,7 @@ npm run preview  # preview the built site
 ## Add a review in Obsidian
 
 1. Open `src/content` as an Obsidian vault.
-2. Create a new note inside the `reviews` folder. The file name becomes the page address, so "Elden Ring.md" becomes `/reviews/elden-ring`.
+2. Create a new note inside the `reviews/entries` folder. The file name becomes the page address, so "Elden Ring.md" becomes `/reviews/elden-ring`.
 3. Insert the Templater template `_templates/Review.md`, then fill in the frontmatter:
 
    | Field | Notes |
@@ -25,9 +25,9 @@ npm run preview  # preview the built site
    | `rating` | Overall rating. Any text you like, for example `Superb`. Wrap it in quotes if it contains a colon |
    | `enjoyment` | Optional. Enjoyment rating, also free text. Can be left blank |
    | `year` | Optional. Release year of the game, for example `2019`. Can be left blank |
-   | `platform` | `PC`, `Steam Deck`, `PS5`, `Switch` or `Xbox` |
+   | `platform` | Any text, for example `PC` or `PS5` |
    | `status` | `Completed`, `100%`, `Playing` or `Dropped` |
-   | `cover` | Optional. Path such as `covers/elden-ring.jpg`. Delete the line if there is no cover |
+   | `cover` | Optional. Path such as `../covers/elden-ring.jpg` (the `..` steps up out of `entries`). Delete the line if there is no cover |
 
 4. Write your review below the frontmatter, using standard Markdown (no `[[wikilinks]]`).
    To hide story details, wrap them in the spoiler block that the template includes. It appears as a collapsed "Spoilers" box on the site, and readers click to open it:
@@ -45,7 +45,7 @@ npm run preview  # preview the built site
 5. Put cover images in `src/content/reviews/covers/`.
 6. Commit and push. Cloudflare Pages rebuilds the site automatically.
 
-The three "Sample" reviews are placeholders. Delete them, and their images in `covers/`, when you have real ones.
+Only `.md` files directly inside `reviews/entries` become reviews, so notes kept elsewhere (for example a to-do list in `reviews/`) are ignored.
 
 If a review is missing a required field or uses an invalid value, `npm run build` fails and names the file and field at fault.
 
@@ -77,5 +77,7 @@ src/
 ├── content.config.ts   review schema
 └── content/        Obsidian vault
     ├── _templates/Review.md
-    └── reviews/    one Markdown file per game, plus covers/
+    └── reviews/
+        ├── entries/    one Markdown file per game
+        └── covers/     cover images
 ```
