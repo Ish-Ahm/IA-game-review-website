@@ -11,10 +11,14 @@
             "id": "f448ba473618dc7d",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "entries/Spider-Man PS4.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "Spider-Man PS4"
             }
           }
         ]
@@ -95,6 +99,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "entries/Spider-Man PS4.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -113,6 +118,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "entries/Spider-Man PS4.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -155,6 +161,7 @@
             "state": {
               "type": "outline",
               "state": {
+                "file": "entries/Spider-Man PS4.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -183,16 +190,18 @@
   },
   "active": "f448ba473618dc7d",
   "lastOpenFiles": [
-    "Spider-Man PS4.md",
-    "entries/Spider-Man PS4.md",
+    "entries/Blank Cover Test.md",
+    "Game Reviews (to be made).md",
+    "Ideas for website.md",
     "entries/007 First Light.md",
+    "entries/Spider-Man PS4.md",
+    "covers/007 First Light.png",
+    "covers/Spider-Man PS4.png",
+    "Spider-Man PS4.md",
     "entries",
     "007 First Light.md",
-    "covers/Spider-Man PS4.png",
-    "Game Reviews (to be made).md",
     "007 First Light (Copy).md",
     "007 First Light.md.tmp.624.7ce3b3b3afc5",
-    "covers/007 First Light.png",
     "Sample Forest Quest.md",
     "Sample Space Racer.md",
     "Sample Castle Puzzler.md",

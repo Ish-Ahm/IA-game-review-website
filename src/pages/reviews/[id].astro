@@ -22,13 +22,15 @@ const { Content } = await render(review);
 	<article class="review">
 		<h1 class="review__title">{title}</h1>
 
-		{
-			cover && (
-				<div class="review__cover">
+		<div class="review__cover">
+			{
+				cover ? (
 					<Image src={cover} alt={`Cover art for ${title}`} width={300} />
-				</div>
-			)
-		}
+				) : (
+					<div class="review__cover-placeholder" aria-hidden="true" />
+				)
+			}
+		</div>
 
 		<dl class="review__details">
 			<dt>Overall rating</dt>
@@ -52,6 +54,13 @@ const { Content } = await render(review);
 <style>
 	.review__cover {
 		margin-bottom: var(--space-4);
+	}
+
+	.review__cover-placeholder {
+		width: 12rem;
+		aspect-ratio: 3 / 4;
+		background: var(--color-border);
+		border-radius: var(--radius);
 	}
 
 	.review__details {

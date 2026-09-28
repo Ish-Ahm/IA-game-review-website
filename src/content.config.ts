@@ -18,7 +18,8 @@ const reviews = defineCollection({
 			year: z.number().int().nullish(),
 			// Second rating, for how much I enjoyed it, as free text.
 			enjoyment: z.string().trim().nullish(),
-			cover: image().optional(),
+			// A blank or missing cover shows an empty box instead.
+			cover: image().nullish(),
 		}),
 });
 

@@ -20,7 +20,8 @@
 	--root-font-size: 87.5%;
 
 	/* Layout */
-	--content-max-width: 69rem;
+	--content-max-width: 82rem;
+	--page-gutter: 0.75rem; /* space at the left and right edges */
 
 	/* Spacing scale */
 	--space-1: 0.25rem;
@@ -62,7 +63,7 @@ main {
 	width: 100%;
 	max-width: var(--content-max-width);
 	margin: 0 auto;
-	padding: var(--space-5) var(--space-3);
+	padding: var(--space-5) var(--page-gutter);
 }
 
 a {

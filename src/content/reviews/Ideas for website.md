@@ -1,0 +1,5 @@
+- [ ] General Articles about different happenings in the gaming world
+	- [ ] Blue fart trail, how games should direct players through linear / semi open world environments without feeling too spoon fed and respecting the intelligence of the player.
+	- [ ] How politics best works in games, when it services to the game's story and when it retracts from it
+	- [ ] Was The Last of Us 2 overhated? Or should it be remembered as the game that took a big risk that didn't endear with everyone?
+	- [ ] 
