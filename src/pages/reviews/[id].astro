@@ -1,0 +1,75 @@
+---
+import { getCollection, render } from "astro:content";
+import { Image } from "astro:assets";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Rating from "../../components/Rating.astro";
+
+// Tell Astro to build one page per review.
+export async function getStaticPaths() {
+	const reviews = await getCollection("reviews");
+	return reviews.map((review) => ({
+		params: { id: review.id },
+		props: { review },
+	}));
+}
+
+const { review } = Astro.props;
+const { title, rating, platform, played, status, cover } = review.data;
+const { Content } = await render(review);
+---
+
+<BaseLayout title={`${title} | My Game Reviews`} description={`My review of ${title}.`}>
+	<article class="review">
+		<h1 class="review__title">{title}</h1>
+
+		{
+			cover && (
+				<div class="review__cover">
+					<Image src={cover} alt={`Cover art for ${title}`} width={300} />
+				</div>
+			)
+		}
+
+		<dl class="review__details">
+			<dt>Rating</dt>
+			<dd><Rating value={rating} /></dd>
+			<dt>Platform</dt>
+			<dd>{platform}</dd>
+			<dt>Played</dt>
+			<dd>
+				<time datetime={played.toISOString()}>
+					{played.toLocaleDateString("en-GB", { dateStyle: "long", timeZone: "UTC" })}
+				</time>
+			</dd>
+			<dt>Status</dt>
+			<dd>{status}</dd>
+		</dl>
+
+		<div class="review__body">
+			<Content />
+		</div>
+
+		<p><a href="/">Back to all reviews</a></p>
+	</article>
+</BaseLayout>
+
+<style>
+	.review__cover {
+		margin-bottom: var(--space-4);
+	}
+
+	.review__details {
+		display: grid;
+		grid-template-columns: max-content 1fr;
+		gap: var(--space-1) var(--space-4);
+		margin: 0 0 var(--space-4);
+	}
+
+	.review__details dt {
+		color: var(--color-text-muted);
+	}
+
+	.review__details dd {
+		margin: 0;
+	}
+</style>

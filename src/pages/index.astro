@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import ReviewCard from "../components/ReviewCard.astro";
 
 // Load every review and sort by the date played, newest first.
 const reviews = (await getCollection("reviews")).sort(
@@ -12,27 +13,16 @@ const reviews = (await getCollection("reviews")).sort(
 	<h1>My Game Reviews</h1>
 	<p>Honest thoughts on the games I have played, with ratings and notes.</p>
 
-	<ul class="review-list">
-		{
-			reviews.map((review) => (
-				<li class="review-list__item">
-					<strong>{review.data.title}</strong>: {review.data.rating}/10, {review.data.platform},{" "}
-					{review.data.status}, played{" "}
-					<time datetime={review.data.played.toISOString()}>
-						{review.data.played.toLocaleDateString("en-GB", { dateStyle: "long", timeZone: "UTC" })}
-					</time>
-				</li>
-			))
-		}
-	</ul>
+	<div class="review-grid">
+		{reviews.map((review) => <ReviewCard review={review} />)}
+	</div>
 </BaseLayout>
 
 <style>
-	.review-list {
-		padding-left: var(--space-4);
-	}
-
-	.review-list__item {
-		margin-bottom: var(--space-2);
+	.review-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+		gap: var(--space-4);
+		margin-top: var(--space-4);
 	}
 </style>

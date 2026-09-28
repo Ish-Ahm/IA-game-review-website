@@ -1,0 +1,18 @@
+---
+// Shows a rating out of 10, for example "8/10".
+interface Props {
+	value: number;
+}
+
+const { value } = Astro.props;
+---
+
+<span class="rating" aria-label={`${value} out of 10`}>
+	<span class="rating__value" aria-hidden="true">{value}/10</span>
+</span>
+
+<style>
+	.rating {
+		font-weight: bold;
+	}
+</style>
