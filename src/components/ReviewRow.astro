@@ -295,8 +295,9 @@ const excerpt = summary?.trim() || autoExcerpt;
 
 	.review-detail__excerpt {
 		margin: 0;
-		color: var(--color-text-muted);
+		color: var(--color-text);
 		white-space: pre-line; /* lets a line break typed in the frontmatter show as one */
+		margin-top: 1rem
 	}
 
 	/* Pushed to the far right of the scores box */
@@ -306,6 +307,15 @@ const excerpt = summary?.trim() || autoExcerpt;
 		border: 1px solid var(--color-border-strong);
 		border-radius: var(--radius);
 		white-space: nowrap;
+		text-decoration: none;
+		transition: background-color 0.15s ease, border-color 0.15s ease;
+	}
+
+	.review-detail__link:hover,
+	.review-detail__link:focus-visible {
+		background: #ae54004d; /* AE5400 at 30% opacity (4d = 77/255 ≈ 30%) */
+		border-color: #ff8412;
+		text-decoration: none;
 	}
 
 	@media (max-width: 40rem) {
