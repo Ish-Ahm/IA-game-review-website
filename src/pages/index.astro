@@ -44,10 +44,10 @@ const collage = reviews.filter((r) => r.data.cover).slice(0, 12);
 		<colgroup>
 			<col class="review-table__col-cover" />
 			<col class="review-table__col-game" />
-			<col />
-			<col />
-			<col />
-			<col />
+			<col class="review-table__col-year" />
+			<col class="review-table__col-platform" />
+			<col class="review-table__col-overall" />
+			<col class="review-table__col-enjoyment" />
 			<col />
 		</colgroup>
 		<thead>
@@ -155,9 +155,23 @@ const collage = reviews.filter((r) => r.data.cover).slice(0, 12);
 		width: 3.5rem;
 	}
 
-	/* Fixed width for the game name: 25% of the table. Long titles wrap. */
+	/* Fixed column widths. Long text wraps inside its column. The Status column
+	   (no width set) takes whatever space is left over. */
 	.review-table__col-game {
-		width: 25%;
+		width: 35%;
+	}
+
+	.review-table__col-year {
+		width: 5rem;
+	}
+
+	.review-table__col-platform {
+		width: 10%;
+	}
+
+	.review-table__col-overall,
+	.review-table__col-enjoyment {
+		width: 18%;
 	}
 
 	.review-table th {
