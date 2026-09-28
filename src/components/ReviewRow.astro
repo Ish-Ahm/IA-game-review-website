@@ -30,11 +30,11 @@ const href = `/reviews/${review.id}`;
 			}
 		</a>
 	</td>
-	<td class="review-row__title"><a href={href}>{title}</a></td>
+	<td class="review-row__title" title={title}><a href={href}>{title}</a></td>
 	<td class="review-row__year">{year ?? "\u2014"}</td>
-	<td class="review-row__platform">{platform}</td>
-	<td class="review-row__rating"><Rating value={rating} /></td>
-	<td class="review-row__enjoyment">{enjoyment ? <Rating value={enjoyment} /> : "\u2014"}</td>
+	<td class="review-row__platform" title={platform}>{platform}</td>
+	<td class="review-row__rating" title={rating}><Rating value={rating} /></td>
+	<td class="review-row__enjoyment" title={enjoyment ?? undefined}>{enjoyment ? <Rating value={enjoyment} /> : "\u2014"}</td>
 	<td class="review-row__status">{status}</td>
 </tr>
 
@@ -50,7 +50,10 @@ const href = `/reviews/${review.id}`;
 	.review-row td {
 		padding: var(--space-3) var(--space-2);
 		vertical-align: middle;
-		overflow-wrap: anywhere; /* long text wraps inside its fixed-width column */
+		/* Text that is too long for its column is cut off with an ellipsis */
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 
 	.review-row__cover {
@@ -74,6 +77,12 @@ const href = `/reviews/${review.id}`;
 
 	.review-row__placeholder {
 		background: var(--color-border);
+	}
+
+	/* Keep manual line breaks in ratings, but never wrap: each line is cut off with an ellipsis */
+	.review-row__rating :global(.rating),
+	.review-row__enjoyment :global(.rating) {
+		white-space: pre;
 	}
 
 	.review-row__title a {
