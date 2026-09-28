@@ -41,6 +41,15 @@ const collage = reviews.filter((r) => r.data.cover).slice(0, 12);
 	</section>
 
 	<table class="review-table">
+		<colgroup>
+			<col class="review-table__col-cover" />
+			<col class="review-table__col-game" />
+			<col />
+			<col />
+			<col />
+			<col />
+			<col />
+		</colgroup>
 		<thead>
 			<tr>
 				<th scope="col"><span class="visually-hidden">Cover</span></th>
@@ -136,9 +145,19 @@ const collage = reviews.filter((r) => r.data.cover).slice(0, 12);
 
 	.review-table {
 		width: 100%;
+		table-layout: fixed; /* column widths below are respected exactly */
 		margin-top: var(--space-4);
 		border-collapse: collapse;
 		text-align: left;
+	}
+
+	.review-table__col-cover {
+		width: 3.5rem;
+	}
+
+	/* Fixed width for the game name: 25% of the table. Long titles wrap. */
+	.review-table__col-game {
+		width: 25%;
 	}
 
 	.review-table th {

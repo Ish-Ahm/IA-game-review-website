@@ -1,6 +1,7 @@
 ---
 title: 007 First Light
 cover: ../covers/007 First Light.png
+year: 2026
 platform: PC
 rating: 8/10 (not 007/10)
 enjoyment: 9.5/10
