@@ -1,8 +1,38 @@
 ---
+import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+// Load every review and sort by the date played, newest first.
+const reviews = (await getCollection("reviews")).sort(
+	(a, b) => b.data.played.valueOf() - a.data.played.valueOf(),
+);
 ---
 
 <BaseLayout title="My Game Reviews" description="Personal reviews of games I have played.">
 	<h1>My Game Reviews</h1>
 	<p>Honest thoughts on the games I have played, with ratings and notes.</p>
+
+	<ul class="review-list">
+		{
+			reviews.map((review) => (
+				<li class="review-list__item">
+					<strong>{review.data.title}</strong>: {review.data.rating}/10, {review.data.platform},{" "}
+					{review.data.status}, played{" "}
+					<time datetime={review.data.played.toISOString()}>
+						{review.data.played.toLocaleDateString("en-GB", { dateStyle: "long", timeZone: "UTC" })}
+					</time>
+				</li>
+			))
+		}
+	</ul>
 </BaseLayout>
+
+<style>
+	.review-list {
+		padding-left: var(--space-4);
+	}
+
+	.review-list__item {
+		margin-bottom: var(--space-2);
+	}
+</style>
