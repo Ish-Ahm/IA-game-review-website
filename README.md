@@ -24,6 +24,7 @@ npm run preview  # preview the built site
    | `title` | Game title |
    | `rating` | Overall rating. Any text you like, for example `Superb`. Wrap it in quotes if it contains a colon |
    | `enjoyment` | Optional. Enjoyment rating, also free text. Can be left blank |
+   | `developer` | Optional. The studio that made the game. Can be left blank |
    | `year` | Optional. Release year of the game, for example `2019`. Can be left blank |
    | `platform` | Any text, for example `PC` or `PS5` |
    | `status` | `Completed`, `100%`, `Playing` or `Dropped` |

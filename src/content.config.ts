@@ -14,6 +14,8 @@ const reviews = defineCollection({
 			// Free text, for example "PC" or "PS4 (played on PS5)".
 			platform: z.string().trim().min(1),
 			status: z.enum(["Completed", "100%", "Playing", "Dropped"]),
+			// Studio that made the game, for example "Remedy Entertainment".
+			developer: z.string().trim().nullish(),
 			// Release year of the game, for example 2019.
 			year: z.number().int().nullish(),
 			// Second rating, for how much I enjoyed it, as free text.

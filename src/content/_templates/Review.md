@@ -1,6 +1,7 @@
 ---
 title: <% tp.file.title %>
 cover:
+developer:
 year:
 platform:
 rating:

@@ -1,7 +1,7 @@
 /* Design tokens: change these values to restyle the whole site. */
 :root {
 	/* Colours */
-	--color-background: #0d111b;
+	--color-background: #07090f;
 	--color-surface: #151b28;
 	--color-surface-hover: #1a2233;
 	--color-text: #e6e8ee;

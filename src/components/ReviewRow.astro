@@ -8,8 +8,11 @@ interface Props {
 }
 
 const { review } = Astro.props;
-const { title, rating, enjoyment, year, platform, status, cover } = review.data;
+const { title, rating, enjoyment, year, developer, platform, status, cover } = review.data;
 const href = `/reviews/${review.id}`;
+// The line under the title, for example "Remedy Entertainment · 2019 · PS5 · Completed".
+// Anything left blank is skipped.
+const subtitle = [developer, year, platform, status].filter(Boolean).join(" \u00b7 ");
 const detailId = `review-detail-${review.id}`;
 
 // A short preview taken from the first paragraph of the review (skipping
@@ -71,11 +74,8 @@ const excerpt = plain.length > 320 ? `${plain.slice(0, 320).replace(/\s+\S*$/, "
 			</div>
 
 			<div class="review-detail__content">
-				<h2 class="review-detail__title">
-					{title}
-					{year && <span class="review-detail__year">({year})</span>}
-				</h2>
-				<p class="review-detail__meta">{platform} · {status}</p>
+				<h2 class="review-detail__title">{title}</h2>
+				<p class="review-detail__meta">{subtitle}</p>
 
 				<div class="review-detail__scores">
 					<div class="review-detail__score">
@@ -226,12 +226,6 @@ const excerpt = plain.length > 320 ? `${plain.slice(0, 320).replace(/\s+\S*$/, "
 		margin: 0;
 		font-size: 1.75rem;
 		line-height: 1.2;
-	}
-
-	.review-detail__year {
-		color: var(--color-text-muted);
-		font-weight: normal;
-		font-size: 1.1rem;
 	}
 
 	.review-detail__meta {
