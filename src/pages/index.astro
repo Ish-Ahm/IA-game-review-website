@@ -1,28 +1,259 @@
 ---
 import { getCollection } from "astro:content";
+import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import ReviewCard from "../components/ReviewCard.astro";
+import ReviewRow from "../components/ReviewRow.astro";
 
 // Load every review and sort by the date played, newest first.
 const reviews = (await getCollection("reviews")).sort(
 	(a, b) => b.data.played.valueOf() - a.data.played.valueOf(),
 );
+
+const completedCount = reviews.filter((r) => r.data.status === "Completed" || r.data.status === "100%").length;
+// Cover art for the collage beside the intro, up to 12 games.
+const collage = reviews.filter((r) => r.data.cover).slice(0, 12);
 ---
 
 <BaseLayout title="My Game Reviews" description="Personal reviews of games I have played.">
-	<h1>My Game Reviews</h1>
-	<p>Honest thoughts on the games I have played, with ratings and notes.</p>
+	<section class="intro">
+		<div class="intro__text">
+			<h1 class="intro__title">My Games &amp; Reviews</h1>
+			<p class="intro__description">
+				Reviews of {reviews.length} games I have played over the years, including ratings, notes and
+				where I played them. Placeholder text: replace this with your own introduction.
+			</p>
 
-	<div class="review-grid">
-		{reviews.map((review) => <ReviewCard review={review} />)}
-	</div>
+			<div class="tabs" role="group" aria-label="Filter reviews">
+				<button class="tabs__tab" type="button" data-filter="all" aria-pressed="true">
+					All <span class="tabs__count">{reviews.length}</span>
+				</button>
+				<button class="tabs__tab" type="button" data-filter="completed" aria-pressed="false">
+					Completed <span class="tabs__count">{completedCount}</span>
+				</button>
+			</div>
+		</div>
+
+		<div class="collage" aria-hidden="true">
+			{
+				collage.map((review) => (
+					<Image src={review.data.cover!} alt="" width={140} height={200} class="collage__image" />
+				))
+			}
+		</div>
+	</section>
+
+	<table class="review-table">
+		<thead>
+			<tr>
+				<th scope="col"><span class="visually-hidden">Cover</span></th>
+				<th scope="col"><button type="button" class="sort" data-sort="title">Game</button></th>
+				<th scope="col"><button type="button" class="sort" data-sort="platform">Platform</button></th>
+				<th scope="col"><button type="button" class="sort" data-sort="played">Played</button></th>
+				<th scope="col"><button type="button" class="sort" data-sort="rating">Rating</button></th>
+				<th scope="col">Status</th>
+			</tr>
+		</thead>
+		<tbody>
+			{reviews.map((review) => <ReviewRow review={review} />)}
+		</tbody>
+	</table>
+	<p class="review-table__empty" hidden>No reviews match your search.</p>
 </BaseLayout>
 
 <style>
-	.review-grid {
+	.intro {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-start;
+		flex-wrap: wrap;
+		gap: var(--space-5);
+		padding-bottom: var(--space-5);
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	.intro__text {
+		flex: 1 1 24rem;
+		max-width: 32rem;
+	}
+
+	.intro__title {
+		margin: 0 0 var(--space-3);
+		font-size: 2.25rem;
+		line-height: 1.1;
+	}
+
+	.intro__description {
+		margin: 0 0 var(--space-4);
+		color: var(--color-text-muted);
+		font-size: 1.1rem;
+	}
+
+	.tabs {
+		display: flex;
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius);
+		overflow: hidden;
+	}
+
+	.tabs__tab {
+		flex: 1;
+		display: flex;
+		justify-content: space-between;
+		gap: var(--space-3);
+		padding: var(--space-3);
+		background: transparent;
+		color: var(--color-text-muted);
+		border: 0;
+		border-bottom: 3px solid transparent;
+		font: inherit;
+		cursor: pointer;
+	}
+
+	.tabs__tab[aria-pressed="true"] {
+		background: var(--color-surface);
+		color: var(--color-text);
+		border-bottom-color: var(--color-highlight);
+	}
+
+	.tabs__count {
+		font-family: var(--font-mono);
+		font-weight: bold;
+		color: var(--color-highlight);
+	}
+
+	.collage {
 		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
-		gap: var(--space-4);
+		grid-template-columns: repeat(6, 4.5rem);
+		gap: var(--space-2);
+	}
+
+	.collage__image {
+		width: 100%;
+		aspect-ratio: 5 / 7;
+		object-fit: cover;
+		border: 1px solid var(--color-border);
+		border-radius: 0.25rem;
+	}
+
+	.review-table {
+		width: 100%;
 		margin-top: var(--space-4);
+		border-collapse: collapse;
+		text-align: left;
+	}
+
+	.review-table th {
+		padding: var(--space-3) var(--space-2);
+		border-bottom: 1px solid var(--color-border);
+		color: var(--color-text-muted);
+		font-weight: 600;
+		font-size: 0.9rem;
+	}
+
+	.sort {
+		padding: 0;
+		background: none;
+		border: 0;
+		color: inherit;
+		font: inherit;
+		cursor: pointer;
+	}
+
+	.sort::after {
+		content: " \2195";
+		opacity: 0.5;
+	}
+
+	.sort[data-direction="asc"]::after {
+		content: " \2191";
+		opacity: 1;
+		color: var(--color-highlight);
+	}
+
+	.sort[data-direction="desc"]::after {
+		content: " \2193";
+		opacity: 1;
+		color: var(--color-highlight);
+	}
+
+	.review-table__empty {
+		color: var(--color-text-muted);
+	}
+
+	.visually-hidden {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip: rect(0 0 0 0);
+		white-space: nowrap;
+	}
+
+	@media (max-width: 40rem) {
+		.collage {
+			display: none;
+		}
 	}
 </style>
+
+<script>
+	// Small, framework-free script: filter tabs, search and sortable columns.
+	const table = document.querySelector<HTMLTableElement>(".review-table")!;
+	const body = table.tBodies[0];
+	const rows = Array.from(body.querySelectorAll<HTMLTableRowElement>("tr"));
+	const emptyMessage = document.querySelector<HTMLElement>(".review-table__empty")!;
+	const searchInput = document.querySelector<HTMLInputElement>("#site-search");
+	const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>(".tabs__tab"));
+
+	let filter = "all";
+	let query = new URLSearchParams(location.search).get("q")?.toLowerCase().trim() ?? "";
+	if (searchInput && query) searchInput.value = query;
+
+	function applyFilters() {
+		let visible = 0;
+		for (const row of rows) {
+			const status = row.dataset.status ?? "";
+			const matchesTab = filter === "all" || status === "Completed" || status === "100%";
+			const text = `${row.dataset.title} ${row.dataset.platform}`;
+			const matchesSearch = !query || text.includes(query);
+			row.hidden = !(matchesTab && matchesSearch);
+			if (!row.hidden) visible++;
+		}
+		emptyMessage.hidden = visible > 0;
+	}
+
+	for (const tab of tabs) {
+		tab.addEventListener("click", () => {
+			filter = tab.dataset.filter ?? "all";
+			tabs.forEach((t) => t.setAttribute("aria-pressed", String(t === tab)));
+			applyFilters();
+		});
+	}
+
+	// Filter live while typing, instead of reloading the page.
+	searchInput?.addEventListener("input", () => {
+		query = searchInput.value.toLowerCase().trim();
+		applyFilters();
+	});
+	searchInput?.form?.addEventListener("submit", (event) => event.preventDefault());
+
+	const sortButtons = Array.from(document.querySelectorAll<HTMLButtonElement>(".sort"));
+	for (const button of sortButtons) {
+		button.addEventListener("click", () => {
+			const key = button.dataset.sort!;
+			const direction = button.dataset.direction === "asc" ? "desc" : "asc";
+			sortButtons.forEach((b) => delete b.dataset.direction);
+			button.dataset.direction = direction;
+
+			const numeric = key === "rating" || key === "played";
+			const value = (row: HTMLTableRowElement) => row.dataset[key] ?? "";
+			rows.sort((a, b) => {
+				const result = numeric ? Number(value(a)) - Number(value(b)) : value(a).localeCompare(value(b));
+				return direction === "asc" ? result : -result;
+			});
+			rows.forEach((row) => body.appendChild(row));
+		});
+	}
+
+	applyFilters();
+</script>

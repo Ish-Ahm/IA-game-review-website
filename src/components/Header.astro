@@ -1,19 +1,34 @@
 ---
-// The site header: site name and main navigation.
+// The site header: site name, main navigation and search.
 ---
 
 <header class="site-header">
-	<a class="site-header__title" href="/">My Game Reviews</a>
-	<nav class="site-header__nav" aria-label="Main">
-		<a href="/">Home</a>
-		<a href="/about">About</a>
-	</nav>
+	<div class="site-header__inner">
+		<a class="site-header__title" href="/">My Game Reviews</a>
+		<nav class="site-header__nav" aria-label="Main">
+			<a class="site-header__link" href="/">Reviews</a>
+			<a class="site-header__link" href="/about">About</a>
+		</nav>
+		<form class="site-header__search" action="/" method="get" role="search">
+			<input
+				id="site-search"
+				class="site-header__search-input"
+				type="search"
+				name="q"
+				placeholder="Search games and reviews"
+				aria-label="Search games and reviews"
+			/>
+		</form>
+	</div>
 </header>
 
 <style>
 	.site-header {
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	.site-header__inner {
 		display: flex;
-		justify-content: space-between;
 		align-items: center;
 		flex-wrap: wrap;
 		gap: var(--space-3);
@@ -24,11 +39,44 @@
 	}
 
 	.site-header__title {
-		font-weight: bold;
+		font-size: 1.25rem;
+		font-weight: 800;
+		color: var(--color-text);
 	}
 
 	.site-header__nav {
 		display: flex;
-		gap: var(--space-3);
+		gap: var(--space-2);
+	}
+
+	.site-header__link {
+		padding: var(--space-1) var(--space-3);
+		border-radius: var(--radius);
+		color: var(--color-text-muted);
+	}
+
+	.site-header__link:hover {
+		color: var(--color-text);
+		background: var(--color-surface);
+		text-decoration: none;
+	}
+
+	.site-header__search {
+		margin-left: auto;
+		flex: 0 1 22rem;
+	}
+
+	.site-header__search-input {
+		width: 100%;
+		padding: var(--space-2) var(--space-3);
+		background: var(--color-surface);
+		color: var(--color-text);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius);
+		font: inherit;
+	}
+
+	.site-header__search-input::placeholder {
+		color: var(--color-text-muted);
 	}
 </style>
