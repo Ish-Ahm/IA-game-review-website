@@ -79,6 +79,7 @@ Each review file has YAML frontmatter with these fields:
 | `rating` | string | yes | Overall rating, custom text, not a number (for example "Superb") |
 | `enjoyment` | string | no | Enjoyment rating, custom text, shown next to the overall rating |
 | `developer` | string | no | Studio that made the game |
+| `summary` | string | no | Short spoiler-free summary shown in the review list; falls back to the review's first paragraph |
 | `year` | number | no | Release year of the game |
 | `platform` | string | yes | Free text, for example `PC` or `PS5` |
 | `status` | enum | yes | `Completed`, `100%`, `Playing`, `Dropped` |

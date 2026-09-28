@@ -16,6 +16,9 @@ const reviews = defineCollection({
 			status: z.enum(["Completed", "100%", "Playing", "Dropped"]),
 			// Studio that made the game, for example "Remedy Entertainment".
 			developer: z.string().trim().nullish(),
+			// A short, spoiler-free summary shown in the review list, for people who
+			// do not want the full review. Falls back to the review's first paragraph.
+			summary: z.string().trim().nullish(),
 			// Release year of the game, for example 2019.
 			year: z.number().int().nullish(),
 			// Second rating, for how much I enjoyed it, as free text.

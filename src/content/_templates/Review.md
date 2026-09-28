@@ -7,6 +7,7 @@ platform:
 rating:
 enjoyment:
 status:
+summary:
 ---
 
 Write your spoiler-free review here.

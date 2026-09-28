@@ -8,7 +8,7 @@ interface Props {
 }
 
 const { review } = Astro.props;
-const { title, rating, enjoyment, year, developer, platform, status, cover } = review.data;
+const { title, rating, enjoyment, year, developer, platform, status, cover, summary } = review.data;
 const href = `/reviews/${review.id}`;
 // The line under the title, for example "Remedy Entertainment · 2019 · PS5 · Completed".
 // Anything left blank is skipped.
@@ -27,7 +27,8 @@ const plain = firstParagraph
 	.replace(/[*_`#>]/g, "")
 	.replace(/\s+/g, " ")
 	.trim();
-const excerpt = plain.length > 320 ? `${plain.slice(0, 320).replace(/\s+\S*$/, "")}…` : plain;
+const autoExcerpt = plain.length > 320 ? `${plain.slice(0, 320).replace(/\s+\S*$/, "")}…` : plain;
+const excerpt = summary?.trim() || autoExcerpt;
 ---
 
 <tr
@@ -84,17 +85,16 @@ const excerpt = plain.length > 320 ? `${plain.slice(0, 320).replace(/\s+\S*$/, "
 					</div>
 					{
 						enjoyment && (
-							<div class="review-detail__score review-detail__score--end">
+							<div class="review-detail__score">
 								<span class="review-detail__score-label">Enjoyment rating</span>
 								<span class="review-detail__score-value"><Rating value={enjoyment} /></span>
 							</div>
 						)
 					}
+					<a class="review-detail__link" href={href}>Read full review</a>
 				</div>
 
 				{excerpt && <p class="review-detail__excerpt">{excerpt}</p>}
-
-				<a class="review-detail__link" href={href}>Read full review</a>
 			</div>
 		</div>
 	</td>
@@ -239,7 +239,7 @@ const excerpt = plain.length > 320 ? `${plain.slice(0, 320).replace(/\s+\S*$/, "
 
 	.review-detail__scores {
 		display: flex;
-		justify-content: space-between;
+		align-items: center;
 		gap: var(--space-4);
 		padding: var(--space-4);
 		background: var(--color-surface-hover);
@@ -252,10 +252,6 @@ const excerpt = plain.length > 320 ? `${plain.slice(0, 320).replace(/\s+\S*$/, "
 		flex-direction: column;
 		gap: var(--space-1);
 		min-width: 0;
-	}
-
-	.review-detail__score--end {
-		text-align: right;
 	}
 
 	.review-detail__score-label {
@@ -276,12 +272,13 @@ const excerpt = plain.length > 320 ? `${plain.slice(0, 320).replace(/\s+\S*$/, "
 		color: var(--color-text-muted);
 	}
 
+	/* Pushed to the far right of the scores box */
 	.review-detail__link {
-		align-self: flex-start;
-		margin-top: auto;
+		margin-left: auto;
 		padding: var(--space-2) var(--space-3);
 		border: 1px solid var(--color-border-strong);
 		border-radius: var(--radius);
+		white-space: nowrap;
 	}
 
 	@media (max-width: 40rem) {
