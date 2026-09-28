@@ -35,8 +35,7 @@
               "title": "Spider-Man PS4"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -114,7 +113,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "entries/Spider-Man PS4.md",
+                "file": "entries/007 First Light.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -133,7 +132,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "entries/Spider-Man PS4.md",
+                "file": "entries/007 First Light.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -176,7 +175,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "entries/Spider-Man PS4.md",
+                "file": "entries/007 First Light.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -203,13 +202,16 @@
       "bases:Create new base": false
     }
   },
-  "active": "c6143ad675f29d4f",
+  "active": "f448ba473618dc7d",
   "lastOpenFiles": [
-    "entries/Break Test.md",
-    "entries/007 First Light.md",
+    "entries/Red Dead Redemption 2.md",
     "entries/Spider-Man PS4.md",
-    "entries/Blank Cover Test.md",
     "Game Reviews (to be made).md",
+    "entries/007 First Light.md",
+    "covers/RDR2.png",
+    "covers/Unconfirmed 413905.crdownload",
+    "entries/Break Test.md",
+    "entries/Blank Cover Test.md",
     "Ideas for website.md",
     "covers/007 First Light.png",
     "covers/Spider-Man PS4.png",
