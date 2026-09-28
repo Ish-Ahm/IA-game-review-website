@@ -29,6 +29,18 @@ npm run preview  # preview the built site
    | `cover` | Optional. Path such as `covers/elden-ring.jpg`. Delete the line if there is no cover |
 
 4. Write your review below the frontmatter, using standard Markdown (no `[[wikilinks]]`).
+   To hide story details, wrap them in the spoiler block that the template includes. It appears as a collapsed "Spoilers" box on the site, and readers click to open it:
+
+   ```html
+   <details>
+   <summary>Spoilers: story</summary>
+
+   Your spoiler text here.
+
+   </details>
+   ```
+
+   Keep the blank lines inside the block, or the Markdown formatting will not work.
 5. Put cover images in `src/content/reviews/covers/`.
 6. Commit and push. Cloudflare Pages rebuilds the site automatically.
 
