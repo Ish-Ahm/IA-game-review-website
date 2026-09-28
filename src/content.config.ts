@@ -12,7 +12,6 @@ const reviews = defineCollection({
 			// Free text, for example "Superb" or "Great, with a few rough edges".
 			rating: z.string().trim().min(1),
 			platform: z.enum(["PC", "Steam Deck", "PS5", "Switch", "Xbox"]),
-			played: z.coerce.date(),
 			status: z.enum(["Completed", "100%", "Playing", "Dropped"]),
 			// Release year of the game, for example 2019.
 			year: z.number().int().nullish(),

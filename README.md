@@ -26,7 +26,6 @@ npm run preview  # preview the built site
    | `enjoyment` | Optional. Enjoyment rating, also free text. Can be left blank |
    | `year` | Optional. Release year of the game, for example `2019`. Can be left blank |
    | `platform` | `PC`, `Steam Deck`, `PS5`, `Switch` or `Xbox` |
-   | `played` | Date in `YYYY-MM-DD` format |
    | `status` | `Completed`, `100%`, `Playing` or `Dropped` |
    | `cover` | Optional. Path such as `covers/elden-ring.jpg`. Delete the line if there is no cover |
 

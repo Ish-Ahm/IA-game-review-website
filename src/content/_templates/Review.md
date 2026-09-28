@@ -4,7 +4,6 @@ rating:
 enjoyment:
 year:
 platform:
-played: <% tp.date.now("YYYY-MM-DD") %>
 status:
 cover:
 ---

@@ -1,9 +1,8 @@
 ---
 title: Sample Space Racer
 rating: Fun for a weekend
-year: 2022
+year: 2026
 platform: Switch
-played: 2026-06-02
 status: Dropped
 cover: covers/sample-space-racer.svg
 ---

@@ -14,7 +14,7 @@ export async function getStaticPaths() {
 }
 
 const { review } = Astro.props;
-const { title, rating, enjoyment, year, platform, played, status, cover } = review.data;
+const { title, rating, enjoyment, year, platform, status, cover } = review.data;
 const { Content } = await render(review);
 ---
 
@@ -37,12 +37,6 @@ const { Content } = await render(review);
 			{year && <dt>Year</dt><dd>{year}</dd>}
 			<dt>Platform</dt>
 			<dd>{platform}</dd>
-			<dt>Played</dt>
-			<dd>
-				<time datetime={played.toISOString()}>
-					{played.toLocaleDateString("en-GB", { dateStyle: "long", timeZone: "UTC" })}
-				</time>
-			</dd>
 			<dt>Status</dt>
 			<dd>{status}</dd>
 		</dl>

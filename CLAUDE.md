@@ -2,7 +2,7 @@
 
 ## Project overview
 
-A personal, static website where I (Ishaan) publish reviews of games I have played. Each review has a rating, the platform I played it on, when I played it, and my written thoughts. The site is for my own use and for sharing my opinions with others. It may grow later, but for now it is a simple static site.
+A personal, static website where I (Ishaan) publish reviews of games I have played. Each review has a rating, the platform I played it on, and my written thoughts. The site is for my own use and for sharing my opinions with others. It may grow later, but for now it is a simple static site.
 
 ## Division of labour (important)
 
@@ -79,7 +79,6 @@ Each review file has YAML frontmatter with these fields:
 | `enjoyment` | string | no | Enjoyment rating, custom text, shown next to the overall rating |
 | `year` | number | no | Release year of the game |
 | `platform` | enum | yes | `PC`, `Steam Deck`, `PS5`, `Switch`, `Xbox` |
-| `played` | date | yes | Format `YYYY-MM-DD`, use `z.coerce.date()` |
 | `status` | enum | yes | `Completed`, `100%`, `Playing`, `Dropped` |
 | `cover` | image | no | Relative path such as `covers/game-name.jpg`, use Astro's `image()` helper |
 
@@ -95,7 +94,6 @@ Rules for the schema:
 - Reviews must never rely on Obsidian wikilinks (`[[...]]`). Use standard Markdown links and relative image paths.
 - Create `src/content/_templates/Review.md` using Templater syntax:
   - `title` filled with `<% tp.file.title %>`
-  - `played` filled with `<% tp.date.now("YYYY-MM-DD") %>`
   - Other fields left empty for me to fill in
 - Add `src/content/.obsidian/workspace.json` and `src/content/.obsidian/workspace-mobile.json` to `.gitignore`.
 - Obsidian settings and plugins (Templater, Obsidian Git, link format, attachment folder) are configured by me manually inside Obsidian. Do not try to write Obsidian's config JSON. Instead, list the settings I need to change at the end of that stage.
@@ -117,7 +115,7 @@ Work through one stage at a time. At the end of each stage: run `npm run build` 
 ### Stage 3: Content collection
 - Create `src/content.config.ts` with the `reviews` collection and schema above.
 - Add two or three sample reviews (clearly marked as samples in the text) with realistic data. One should have no cover to test the optional field.
-- Show a simple list of reviews on the homepage, sorted by `played` date, newest first, to prove the data flows through.
+- Show a simple list of reviews on the homepage, sorted alphabetically by title, to prove the data flows through.
 
 ### Stage 4: Obsidian preparation
 - Create the `_templates/Review.md` template and the `reviews/covers/` folder (with a `.gitkeep`).

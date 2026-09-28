@@ -4,10 +4,8 @@ import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ReviewRow from "../components/ReviewRow.astro";
 
-// Load every review and sort by the date played, newest first.
-const reviews = (await getCollection("reviews")).sort(
-	(a, b) => b.data.played.valueOf() - a.data.played.valueOf(),
-);
+// Load every review and sort alphabetically by title.
+const reviews = (await getCollection("reviews")).sort((a, b) => a.data.title.localeCompare(b.data.title));
 
 const completedCount = reviews.filter((r) => r.data.status === "Completed" || r.data.status === "100%").length;
 // Cover art for the collage beside the intro, up to 12 games.
