@@ -155,7 +155,7 @@ const collage = reviews.filter((r) => r.data.cover).slice(0, 12);
 		width: 3.5rem;
 	}
 
-	/* Fixed column widths. Long text wraps inside its column. The Status column
+	/* Fixed column widths. Long text is cut off with an ellipsis. The Status column
 	   (no width set) takes whatever space is left over. */
 	.review-table__col-game {
 		width: 35%;
@@ -169,9 +169,12 @@ const collage = reviews.filter((r) => r.data.cover).slice(0, 12);
 		width: 10%;
 	}
 
-	.review-table__col-overall,
-	.review-table__col-enjoyment {
+	.review-table__col-overall {
 		width: 18%;
+	}
+
+	.review-table__col-enjoyment {
+		width: 14%;
 	}
 
 	.review-table th {
