@@ -61,40 +61,46 @@ const excerpt = summary?.trim() || autoExcerpt;
 	<td class="review-row__enjoyment" title={enjoyment ?? undefined}>{enjoyment ? <Rating value={enjoyment} /> : "—"}</td>
 	<td class="review-row__status">{status}</td>
 </tr>
-<tr class="review-detail" id={detailId} hidden>
+<tr class="review-detail" id={detailId}>
 	<td colspan="7">
-		<div class="review-detail__panel">
-			<div class="review-detail__cover">
-				{
-					cover ? (
-						<Image src={cover} alt={`Cover art for ${title}`} width={300} class="review-detail__image" />
-					) : (
-						<div class="review-detail__placeholder" aria-hidden="true"></div>
-					)
-				}
-			</div>
-
-			<div class="review-detail__content">
-				<h2 class="review-detail__title">{title}</h2>
-				<p class="review-detail__meta">{subtitle}</p>
-
-				<div class="review-detail__scores">
-					<div class="review-detail__score">
-						<span class="review-detail__score-label">Overall rating</span>
-						<span class="review-detail__score-value"><Rating value={rating} /></span>
+		<!-- Collapsed by default (max-height: 0). The script animates it open
+		     and closed instead of showing or hiding it immediately. -->
+		<div class="review-detail__collapse">
+			<div class="review-detail__collapse-inner">
+				<div class="review-detail__panel">
+					<div class="review-detail__cover">
+						{
+							cover ? (
+								<Image src={cover} alt={`Cover art for ${title}`} width={300} class="review-detail__image" />
+							) : (
+								<div class="review-detail__placeholder" aria-hidden="true"></div>
+							)
+						}
 					</div>
-					{
-						enjoyment && (
-							<div class="review-detail__score">
-								<span class="review-detail__score-label">Enjoyment rating</span>
-								<span class="review-detail__score-value"><Rating value={enjoyment} /></span>
-							</div>
-						)
-					}
-					<a class="review-detail__link" href={href}>Read full review</a>
-				</div>
 
-				{excerpt && <p class="review-detail__excerpt">{excerpt}</p>}
+					<div class="review-detail__content">
+						<h2 class="review-detail__title">{title}</h2>
+						<p class="review-detail__meta">{subtitle}</p>
+
+						<div class="review-detail__scores">
+							<div class="review-detail__score">
+								<span class="review-detail__score-label">Overall rating</span>
+								<span class="review-detail__score-value"><Rating value={rating} /></span>
+							</div>
+							{
+								enjoyment && (
+									<div class="review-detail__score">
+										<span class="review-detail__score-label">Enjoyment rating</span>
+										<span class="review-detail__score-value"><Rating value={enjoyment} /></span>
+									</div>
+								)
+							}
+							<a class="review-detail__link" href={href}>Read full review</a>
+						</div>
+
+						{excerpt && <p class="review-detail__excerpt">{excerpt}</p>}
+					</div>
+				</div>
 			</div>
 		</div>
 	</td>
@@ -181,6 +187,26 @@ const excerpt = summary?.trim() || autoExcerpt;
 
 	/* The expanded panel that opens under a row */
 	.review-detail > td {
+		padding: 0;
+	}
+
+	/* Collapsed to no height by default. The script sets an explicit pixel
+	   height when opening or closing, so the height change can transition;
+	   "max-height: 0" alone cannot be animated to "auto". */
+	.review-detail__collapse {
+		max-height: 0;
+		overflow: hidden;
+		opacity: 0;
+		transition:
+			max-height 0.25s ease,
+			opacity 0.2s ease;
+	}
+
+	.review-detail__collapse.is-open {
+		opacity: 1;
+	}
+
+	.review-detail__collapse-inner {
 		padding: var(--space-3) 0 var(--space-4);
 		border-bottom: var(--row-line-width) solid var(--color-border-strong);
 	}
@@ -240,7 +266,7 @@ const excerpt = summary?.trim() || autoExcerpt;
 	.review-detail__scores {
 		display: flex;
 		align-items: center;
-		gap: var(--space-5);
+		gap: var(--space-6);
 		padding: var(--space-4);
 		background: var(--color-surface-hover);
 		border: 1px solid var(--color-border);
@@ -257,7 +283,7 @@ const excerpt = summary?.trim() || autoExcerpt;
 	.review-detail__score-label {
 		color: var(--color-text-muted);
 		font-size: 0.8rem;
-		font-weight: 700;
+		font-weight: 1000;
 		text-transform: uppercase;
 		letter-spacing: 0.08em;
 	}

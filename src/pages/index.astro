@@ -256,7 +256,9 @@ const collage = reviews.filter((r) => r.data.cover).slice(0, 12);
 			const text = `${row.dataset.title} ${row.dataset.platform}`;
 			const matchesSearch = !query || text.includes(query);
 			row.hidden = !(matchesTab && matchesSearch);
-			detailFor(row).hidden = row.hidden || toggleFor(row).getAttribute("aria-expanded") !== "true";
+			// The detail row simply follows the review row; whether it is open or
+			// closed is handled separately, by setOpen below.
+			detailFor(row).hidden = row.hidden;
 			if (!row.hidden) visible++;
 		}
 		emptyMessage.hidden = visible > 0;
@@ -277,13 +279,39 @@ const collage = reviews.filter((r) => r.data.cover).slice(0, 12);
 	});
 	searchInput?.form?.addEventListener("submit", (event) => event.preventDefault());
 
-	// Clicking anywhere on a row opens or closes its detail panel.
+	// Clicking anywhere on a row opens or closes its detail panel, animating
+	// the height instead of showing or hiding it immediately.
+	function setOpen(row: HTMLTableRowElement, open: boolean) {
+		const toggle = toggleFor(row);
+		toggle.setAttribute("aria-expanded", String(open));
+		const collapse = detailFor(row).querySelector<HTMLElement>(".review-detail__collapse")!;
+		if (open) {
+			collapse.classList.add("is-open");
+			collapse.style.maxHeight = `${collapse.scrollHeight}px`;
+		} else {
+			// Start from the panel's actual height so the shrink can transition,
+			// then collapse it on the next frame.
+			collapse.style.maxHeight = `${collapse.scrollHeight}px`;
+			requestAnimationFrame(() => {
+				collapse.classList.remove("is-open");
+				collapse.style.maxHeight = "0px";
+			});
+		}
+	}
+
 	for (const row of rows) {
+		const collapse = detailFor(row).querySelector<HTMLElement>(".review-detail__collapse")!;
+		// Once fully open, let the panel grow or shrink naturally (for example if
+		// the window is resized), instead of staying locked to the opening height.
+		collapse.addEventListener("transitionend", (event) => {
+			if (event.propertyName === "max-height" && collapse.classList.contains("is-open")) {
+				collapse.style.maxHeight = "none";
+			}
+		});
+
 		row.addEventListener("click", () => {
-			const toggle = toggleFor(row);
-			const open = toggle.getAttribute("aria-expanded") !== "true";
-			toggle.setAttribute("aria-expanded", String(open));
-			detailFor(row).hidden = !open;
+			const open = toggleFor(row).getAttribute("aria-expanded") !== "true";
+			setOpen(row, open);
 		});
 	}
 
