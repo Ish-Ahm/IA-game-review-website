@@ -308,13 +308,14 @@ const excerpt = summary?.trim() || autoExcerpt;
 		border-radius: var(--radius);
 		white-space: nowrap;
 		text-decoration: none;
-		transition: background-color 0.15s ease, border-color 0.15s ease;
+		transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 	}
 
 	.review-detail__link:hover,
 	.review-detail__link:focus-visible {
 		background: #ae54004d; /* AE5400 at 30% opacity (4d = 77/255 ≈ 30%) */
 		border-color: #ff8412;
+		color: #ff8412;
 		text-decoration: none;
 	}
 
