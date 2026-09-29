@@ -15,7 +15,7 @@
               "state": {
                 "file": "entries/007 First Light.md",
                 "mode": "source",
-                "source": true
+                "source": false
               },
               "icon": "lucide-file",
               "title": "007 First Light"
@@ -206,6 +206,9 @@
   "lastOpenFiles": [
     "entries/Red Dead Redemption 2.md",
     "entries/Spider-Man PS4.md",
+    "entries/Assassin's Creed Syndicate.md",
+    "covers/ACSyndicate.png",
+    "covers/Unconfirmed 438466.crdownload",
     "Game Reviews (to be made).md",
     "entries/007 First Light.md",
     "covers/RDR2.png",
