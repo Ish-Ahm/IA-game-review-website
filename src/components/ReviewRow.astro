@@ -119,10 +119,9 @@ const excerpt = summary?.trim() || autoExcerpt;
 	.review-row td {
 		padding: var(--space-3) var(--space-2);
 		vertical-align: middle;
-		/* Text that is too long for its column is cut off with an ellipsis */
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
+		/* Text that is too long for its column wraps onto another line
+		   instead of being cut off */
+		overflow-wrap: anywhere;
 	}
 
 	.review-row__cover {
@@ -148,10 +147,10 @@ const excerpt = summary?.trim() || autoExcerpt;
 		background: var(--color-border);
 	}
 
-	/* Keep manual line breaks in ratings, but never wrap: each line is cut off with an ellipsis */
+	/* Keep manual line breaks in ratings */
 	.review-row__rating :global(.rating),
 	.review-row__enjoyment :global(.rating) {
-		white-space: pre;
+		white-space: pre-line;
 	}
 
 	/* The game name is a real button (for keyboard users), styled as plain text.
@@ -168,9 +167,6 @@ const excerpt = summary?.trim() || autoExcerpt;
 		font-weight: 600;
 		text-align: left;
 		cursor: pointer;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
 	}
 
 	.review-row__platform,
