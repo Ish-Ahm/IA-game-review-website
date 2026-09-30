@@ -3,12 +3,11 @@ import { getCollection } from "astro:content";
 import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ReviewRow from "../components/ReviewRow.astro";
-import { PLATFORM_OPTIONS } from "../content.config";
+import { PLATFORM_OPTIONS, STATUS_OPTIONS } from "../content.config";
 
 // Load every review and sort alphabetically by title.
 const reviews = (await getCollection("reviews")).sort((a, b) => a.data.title.localeCompare(b.data.title));
 
-const completedCount = reviews.filter((r) => r.data.status === "Completed" || r.data.status === "100%").length;
 // Cover art for the collage beside the intro, up to 12 games.
 const collage = reviews.filter((r) => r.data.cover).slice(0, 12);
 ---
@@ -32,13 +31,54 @@ const collage = reviews.filter((r) => r.data.cover).slice(0, 12);
 		</div>
 	</section>
 
-	<div class="tabs" role="group" aria-label="Filter reviews">
-		<button class="tabs__tab" type="button" data-filter="all" aria-pressed="true">
-			All <span class="tabs__count">{reviews.length}</span>
-		</button>
-		<button class="tabs__tab" type="button" data-filter="completed" aria-pressed="false">
-			Completed <span class="tabs__count">{completedCount}</span>
-		</button>
+	<!-- Both dropdowns tick any number of options, and narrow the table to
+	     rows matching at least one ticked option in each. -->
+	<div class="filters" role="group" aria-label="Filter reviews">
+		<div class="filters__group">
+			<button
+				type="button"
+				class="filters__trigger"
+				id="status-filter-button"
+				aria-haspopup="true"
+				aria-expanded="false"
+				aria-controls="status-filter-menu"
+			>
+				Status <span class="filters__arrow" aria-hidden="true">{"▾"}</span>
+			</button>
+			<div class="filters__menu" id="status-filter-menu" hidden>
+				{
+					STATUS_OPTIONS.map((option) => (
+						<label class="filters__option">
+							<input type="checkbox" value={option} />
+							{option}
+						</label>
+					))
+				}
+			</div>
+		</div>
+
+		<div class="filters__group">
+			<button
+				type="button"
+				class="filters__trigger"
+				id="platform-filter-button"
+				aria-haspopup="true"
+				aria-expanded="false"
+				aria-controls="platform-filter-menu"
+			>
+				Platform <span class="filters__arrow" aria-hidden="true">{"▾"}</span>
+			</button>
+			<div class="filters__menu" id="platform-filter-menu" hidden>
+				{
+					PLATFORM_OPTIONS.map((option) => (
+						<label class="filters__option">
+							<input type="checkbox" value={option} />
+							{option}
+						</label>
+					))
+				}
+			</div>
+		</div>
 	</div>
 
 	<table class="review-table">
@@ -56,30 +96,7 @@ const collage = reviews.filter((r) => r.data.cover).slice(0, 12);
 				<th scope="col"><span class="visually-hidden">Cover</span></th>
 				<th scope="col"><button type="button" class="sort" data-sort="title">Game</button></th>
 				<th scope="col"><button type="button" class="sort" data-sort="year">Year</button></th>
-				<th scope="col">
-					<div class="platform-filter">
-						<button
-							type="button"
-							class="platform-filter__button"
-							id="platform-filter-button"
-							aria-haspopup="true"
-							aria-expanded="false"
-							aria-controls="platform-filter-menu"
-						>
-							Platform <span class="platform-filter__arrow" aria-hidden="true">{"▾"}</span>
-						</button>
-						<div class="platform-filter__menu" id="platform-filter-menu" hidden>
-							{
-								PLATFORM_OPTIONS.map((option) => (
-									<label class="platform-filter__option">
-										<input type="checkbox" value={option} />
-										{option}
-									</label>
-								))
-							}
-						</div>
-					</div>
-				</th>
+				<th scope="col">Platform</th>
 				<th scope="col">Overall rating</th>
 				<th scope="col">Enjoyment rating</th>
 				<th scope="col">Status</th>
@@ -120,40 +137,92 @@ const collage = reviews.filter((r) => r.data.cover).slice(0, 12);
 		font-size: 1.1rem;
 	}
 
-	.tabs {
+	/* The Status and Platform filter dropdowns, styled as one pill-shaped box
+	   like the site's other controls. */
+	.filters {
 		display: flex;
 		width: fit-content;
-		max-width: 20rem;
 		margin: var(--space-4) 0;
 		border: 1px solid var(--color-border);
 		border-radius: var(--radius);
-		overflow: hidden;
 	}
 
-	.tabs__tab {
-		flex: 1;
+	.filters__group {
+		position: relative;
+		border-right: 1px solid var(--color-border);
+	}
+
+	.filters__group:last-child {
+		border-right: 0;
+	}
+
+	.filters__trigger {
 		display: flex;
-		justify-content: space-between;
-		gap: var(--space-3);
+		align-items: center;
+		gap: var(--space-2);
 		padding: var(--space-2) var(--space-3);
 		background: transparent;
 		color: var(--color-text-muted);
 		border: 0;
-		border-bottom: 3px solid transparent;
 		font: inherit;
 		cursor: pointer;
 	}
 
-	.tabs__tab[aria-pressed="true"] {
-		background: var(--color-surface);
-		color: var(--color-text);
-		border-bottom-color: var(--color-highlight);
+	.filters__group:first-child .filters__trigger {
+		border-radius: var(--radius) 0 0 var(--radius);
 	}
 
-	.tabs__count {
+	.filters__group:last-child .filters__trigger {
+		border-radius: 0 var(--radius) var(--radius) 0;
+	}
+
+	.filters__trigger[aria-expanded="true"],
+	.filters__trigger.has-selection {
+		background: var(--color-surface);
+		color: var(--color-text);
+	}
+
+	.filters__arrow {
+		display: inline-block;
+		font-size: 1.3em;
+		font-weight: 900;
+		color: var(--color-highlight);
+	}
+
+	.filters__count {
 		font-family: var(--font-mono);
 		font-weight: bold;
 		color: var(--color-highlight);
+	}
+
+	.filters__menu {
+		position: absolute;
+		top: calc(100% + var(--space-2));
+		left: 0;
+		z-index: 1;
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-1);
+		min-width: 10rem;
+		padding: var(--space-2);
+		background: var(--color-surface);
+		border: 1px solid var(--color-border-strong);
+		border-radius: var(--radius);
+		box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.4);
+	}
+
+	.filters__option {
+		display: flex;
+		align-items: center;
+		gap: var(--space-2);
+		padding: var(--space-1) var(--space-2);
+		color: var(--color-text);
+		cursor: pointer;
+		border-radius: var(--radius);
+	}
+
+	.filters__option:hover {
+		background: var(--color-surface-hover);
 	}
 
 	.collage {
@@ -191,20 +260,20 @@ const collage = reviews.filter((r) => r.data.cover).slice(0, 12);
 	}
 
 	.review-table__col-year {
-		width: 7rem;
+		width: 10%;
 	}
 
 	.review-table__col-platform {
-		width: 18%;
+		width: 12%;
 	}
 
 	.review-table__col-overall,
 	.review-table__col-enjoyment {
-		width: 18%;
+		width: 19%;
 	}
 
 	.review-table__col-status {
-		width: 9%;
+		width: 10%;
 	}
 
 	.review-table th {
@@ -242,60 +311,6 @@ const collage = reviews.filter((r) => r.data.cover).slice(0, 12);
 		content: " \2193";
 	}
 
-	.platform-filter {
-		position: relative;
-		display: inline-block;
-	}
-
-	.platform-filter__button {
-		padding: 0;
-		background: none;
-		border: 0;
-		color: inherit;
-		font: inherit;
-		text-transform: inherit;
-		cursor: pointer;
-	}
-
-	.platform-filter__arrow {
-		display: inline-block;
-		font-size: 1.3em;
-		font-weight: 900;
-		color: var(--color-highlight);
-	}
-
-	.platform-filter__menu {
-		position: absolute;
-		top: calc(100% + var(--space-2));
-		left: 0;
-		z-index: 1;
-		display: flex;
-		flex-direction: column;
-		gap: var(--space-1);
-		min-width: 10rem;
-		padding: var(--space-2);
-		background: var(--color-surface);
-		border: 1px solid var(--color-border-strong);
-		border-radius: var(--radius);
-		box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.4);
-	}
-
-	.platform-filter__option {
-		display: flex;
-		align-items: center;
-		gap: var(--space-2);
-		padding: var(--space-1) var(--space-2);
-		font-weight: normal;
-		text-transform: none;
-		color: var(--color-text);
-		cursor: pointer;
-		border-radius: var(--radius);
-	}
-
-	.platform-filter__option:hover {
-		background: var(--color-surface-hover);
-	}
-
 	.review-table__empty {
 		color: var(--color-text-muted);
 	}
@@ -326,30 +341,70 @@ const collage = reviews.filter((r) => r.data.cover).slice(0, 12);
 	const toggleFor = (row: HTMLTableRowElement) => row.querySelector<HTMLButtonElement>(".review-row__toggle")!;
 	const emptyMessage = document.querySelector<HTMLElement>(".review-table__empty")!;
 	const searchInput = document.querySelector<HTMLInputElement>("#site-search");
-	const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>(".tabs__tab"));
 
-	let filter = "all";
 	let query = new URLSearchParams(location.search).get("q")?.toLowerCase().trim() ?? "";
 	if (searchInput && query) searchInput.value = query;
 
-	// The platform dropdown: a set of the platform names currently ticked.
-	// An empty set means no restriction, so every platform matches.
-	const platformButton = document.querySelector<HTMLButtonElement>("#platform-filter-button")!;
-	const platformMenu = document.querySelector<HTMLElement>("#platform-filter-menu")!;
-	const platformCheckboxes = Array.from(platformMenu.querySelectorAll<HTMLInputElement>('input[type="checkbox"]'));
-	const selectedPlatforms = new Set<string>();
+	// Sets up one filter dropdown (Status or Platform): opening and closing it,
+	// closing it when another one opens or the page is clicked elsewhere, and
+	// tracking which options are ticked. Returns that set of ticked, lowercase
+	// option values, which applyFilters below reads directly.
+	function setupFilterDropdown(id: string) {
+		const button = document.querySelector<HTMLButtonElement>(`#${id}-button`)!;
+		const menu = document.querySelector<HTMLElement>(`#${id}-menu`)!;
+		const checkboxes = Array.from(menu.querySelectorAll<HTMLInputElement>('input[type="checkbox"]'));
+		const selected = new Set<string>();
+
+		button.addEventListener("click", (event) => {
+			event.stopPropagation();
+			const open = menu.hidden;
+			closeAllFilterMenus();
+			menu.hidden = !open;
+			button.setAttribute("aria-expanded", String(open));
+		});
+
+		for (const checkbox of checkboxes) {
+			checkbox.addEventListener("change", () => {
+				const value = checkbox.value.toLowerCase();
+				if (checkbox.checked) {
+					selected.add(value);
+				} else {
+					selected.delete(value);
+				}
+				button.classList.toggle("has-selection", selected.size > 0);
+				applyFilters();
+			});
+		}
+
+		return selected;
+	}
+
+	function closeAllFilterMenus() {
+		for (const menu of document.querySelectorAll<HTMLElement>(".filters__menu")) menu.hidden = true;
+		for (const button of document.querySelectorAll<HTMLButtonElement>(".filters__trigger")) {
+			button.setAttribute("aria-expanded", "false");
+		}
+	}
+
+	// Close an open dropdown when clicking anywhere outside the filter bar.
+	document.addEventListener("click", (event) => {
+		if (!(event.target as Element).closest(".filters")) closeAllFilterMenus();
+	});
+
+	const selectedStatuses = setupFilterDropdown("status-filter");
+	const selectedPlatforms = setupFilterDropdown("platform-filter");
 
 	function applyFilters() {
 		let visible = 0;
 		for (const row of rows) {
-			const status = row.dataset.status ?? "";
-			const matchesTab = filter === "all" || status === "Completed" || status === "100%";
+			const status = (row.dataset.status ?? "").toLowerCase();
+			const matchesStatus = selectedStatuses.size === 0 || selectedStatuses.has(status);
 			const platforms = (row.dataset.platforms ?? "").split(",");
 			const matchesPlatform =
 				selectedPlatforms.size === 0 || platforms.some((p) => selectedPlatforms.has(p));
 			const text = `${row.dataset.title} ${row.dataset.platforms}`;
 			const matchesSearch = !query || text.includes(query);
-			row.hidden = !(matchesTab && matchesPlatform && matchesSearch);
+			row.hidden = !(matchesStatus && matchesPlatform && matchesSearch);
 			// The detail row simply follows the review row; whether it is open or
 			// closed is handled separately, by setOpen below.
 			detailFor(row).hidden = row.hidden;
@@ -358,45 +413,12 @@ const collage = reviews.filter((r) => r.data.cover).slice(0, 12);
 		emptyMessage.hidden = visible > 0;
 	}
 
-	for (const tab of tabs) {
-		tab.addEventListener("click", () => {
-			filter = tab.dataset.filter ?? "all";
-			tabs.forEach((t) => t.setAttribute("aria-pressed", String(t === tab)));
-			applyFilters();
-		});
-	}
-
 	// Filter live while typing, instead of reloading the page.
 	searchInput?.addEventListener("input", () => {
 		query = searchInput.value.toLowerCase().trim();
 		applyFilters();
 	});
 	searchInput?.form?.addEventListener("submit", (event) => event.preventDefault());
-
-	// Open and close the platform dropdown, and close it when clicking outside.
-	platformButton.addEventListener("click", (event) => {
-		event.stopPropagation();
-		const open = platformMenu.hidden;
-		platformMenu.hidden = !open;
-		platformButton.setAttribute("aria-expanded", String(open));
-	});
-	document.addEventListener("click", (event) => {
-		if (!platformMenu.hidden && !platformMenu.contains(event.target as Node) && event.target !== platformButton) {
-			platformMenu.hidden = true;
-			platformButton.setAttribute("aria-expanded", "false");
-		}
-	});
-
-	for (const checkbox of platformCheckboxes) {
-		checkbox.addEventListener("change", () => {
-			if (checkbox.checked) {
-				selectedPlatforms.add(checkbox.value.toLowerCase());
-			} else {
-				selectedPlatforms.delete(checkbox.value.toLowerCase());
-			}
-			applyFilters();
-		});
-	}
 
 	// Clicking anywhere on a row opens or closes its detail panel, animating
 	// the height instead of showing or hiding it immediately.
