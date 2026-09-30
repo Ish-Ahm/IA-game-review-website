@@ -81,7 +81,7 @@ Each review file has YAML frontmatter with these fields:
 | `developer` | string | no | Studio that made the game |
 | `summary` | string | no | Short spoiler-free summary shown in the review list; falls back to the review's first paragraph |
 | `year` | number | no | Release year of the game |
-| `platform` | string | yes | Free text, for example `PC` or `PS5` |
+| `platform` | array of strings | yes | One or more of the values in `PLATFORM_OPTIONS` (content.config.ts), for example `[PC, PS4]` |
 | `status` | enum | yes | `Completed`, `100%`, `Playing`, `Dropped` |
 | `cover` | image | no | Relative path such as `../covers/game-name.jpg` (reviews live in `reviews/entries`), use Astro's `image()` helper |
 

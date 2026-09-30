@@ -10,9 +10,10 @@ interface Props {
 const { review } = Astro.props;
 const { title, rating, enjoyment, year, developer, platform, status, cover, summary } = review.data;
 const href = `/reviews/${review.id}`;
+const platformText = platform.join(", ");
 // The line under the title, for example "Remedy Entertainment · 2019 · PS5 · Completed".
 // Anything left blank is skipped.
-const subtitle = [developer, year, platform, status].filter(Boolean).join(" \u00b7 ");
+const subtitle = [developer, year, platformText, status].filter(Boolean).join(" \u00b7 ");
 const detailId = `review-detail-${review.id}`;
 
 // A short preview taken from the first paragraph of the review (skipping
@@ -34,7 +35,7 @@ const excerpt = summary?.trim() || autoExcerpt;
 <tr
 	class="review-row"
 	data-title={title.toLowerCase()}
-	data-platform={platform.toLowerCase()}
+	data-platforms={platform.map((p) => p.toLowerCase()).join(",")}
 	data-status={status}
 	data-year={year ?? ""}
 	data-detail={detailId}
@@ -56,7 +57,7 @@ const excerpt = summary?.trim() || autoExcerpt;
 		</button>
 	</td>
 	<td class="review-row__year">{year ?? "—"}</td>
-	<td class="review-row__platform" title={platform}>{platform}</td>
+	<td class="review-row__platform" title={platformText}>{platformText}</td>
 	<td class="review-row__rating" title={rating}><Rating value={rating} /></td>
 	<td class="review-row__enjoyment" title={enjoyment ?? undefined}>{enjoyment ? <Rating value={enjoyment} /> : "—"}</td>
 	<td class="review-row__status">{status}</td>

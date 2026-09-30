@@ -39,7 +39,7 @@ const { Content } = await render(review);
 			{developer && <dt>Developer</dt><dd>{developer}</dd>}
 			{year && <dt>Year</dt><dd>{year}</dd>}
 			<dt>Platform</dt>
-			<dd>{platform}</dd>
+			<dd>{platform.join(", ")}</dd>
 			<dt>Status</dt>
 			<dd>{status}</dd>
 		</dl>

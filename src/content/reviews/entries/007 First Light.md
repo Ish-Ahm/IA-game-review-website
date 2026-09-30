@@ -3,7 +3,7 @@ title: 007 First Light
 cover: ../covers/007 First Light.png
 developer: IO Interactive
 year: 2026
-platform: PC
+platform: [PC]
 rating: 8/10
 enjoyment: 9.5/10
 status: Completed

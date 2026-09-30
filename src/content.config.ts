@@ -2,6 +2,11 @@ import { defineCollection } from "astro:content";
 import { glob } from "astro/loaders";
 import { z } from "astro/zod";
 
+// The platforms a review can be tagged with. A review can list more than one
+// (for example a game played on both PC and PS4). Add to this list, in one
+// place, to make a new platform available everywhere on the site.
+export const PLATFORM_OPTIONS = ["PC", "PS4", "PS5", "Switch", "Steam Deck", "Xbox"] as const;
+
 const reviews = defineCollection({
 	// Only read Markdown files directly inside src/content/reviews/entries,
 	// so _templates/ and .obsidian/ are ignored.
@@ -11,8 +16,8 @@ const reviews = defineCollection({
 			title: z.string(),
 			// Free text, for example "Superb" or "Great, with a few rough edges".
 			rating: z.string().trim().min(1),
-			// Free text, for example "PC" or "PS4 (played on PS5)".
-			platform: z.string().trim().min(1),
+			// One or more of PLATFORM_OPTIONS above, for example ["PC", "PS4"].
+			platform: z.array(z.enum(PLATFORM_OPTIONS)).min(1),
 			status: z.enum(["Completed", "100%", "Playing", "Dropped"]),
 			// Studio that made the game, for example "Remedy Entertainment".
 			developer: z.string().trim().nullish(),

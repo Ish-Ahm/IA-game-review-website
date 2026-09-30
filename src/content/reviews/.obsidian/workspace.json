@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "entries/007 First Light.md",
+                "file": "entries/Assassin's Creed Syndicate.md",
                 "mode": "source",
-                "source": false
+                "source": true
               },
               "icon": "lucide-file",
-              "title": "007 First Light"
+              "title": "Assassin's Creed Syndicate"
             }
           },
           {
@@ -113,7 +113,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "entries/007 First Light.md",
+                "file": "entries/Assassin's Creed Syndicate.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -132,7 +132,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "entries/007 First Light.md",
+                "file": "entries/Assassin's Creed Syndicate.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -175,7 +175,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "entries/007 First Light.md",
+                "file": "entries/Assassin's Creed Syndicate.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -204,13 +204,13 @@
   },
   "active": "f448ba473618dc7d",
   "lastOpenFiles": [
+    "entries/007 First Light.md",
+    "entries/Assassin's Creed Syndicate.md",
     "entries/Red Dead Redemption 2.md",
     "entries/Spider-Man PS4.md",
-    "entries/Assassin's Creed Syndicate.md",
     "covers/ACSyndicate.png",
     "covers/Unconfirmed 438466.crdownload",
     "Game Reviews (to be made).md",
-    "entries/007 First Light.md",
     "covers/RDR2.png",
     "covers/Unconfirmed 413905.crdownload",
     "entries/Break Test.md",

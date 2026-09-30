@@ -3,7 +3,7 @@ title: <% tp.file.title %>
 cover:
 developer:
 year:
-platform:
+platform: [] # one or more of: PC, PS4, PS5, Switch, Steam Deck, Xbox — for example [PC, PS4]
 rating:
 enjoyment:
 status:

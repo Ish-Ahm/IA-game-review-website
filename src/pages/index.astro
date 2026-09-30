@@ -3,6 +3,7 @@ import { getCollection } from "astro:content";
 import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ReviewRow from "../components/ReviewRow.astro";
+import { PLATFORM_OPTIONS } from "../content.config";
 
 // Load every review and sort alphabetically by title.
 const reviews = (await getCollection("reviews")).sort((a, b) => a.data.title.localeCompare(b.data.title));
@@ -48,14 +49,37 @@ const collage = reviews.filter((r) => r.data.cover).slice(0, 12);
 			<col class="review-table__col-platform" />
 			<col class="review-table__col-overall" />
 			<col class="review-table__col-enjoyment" />
-			<col />
+			<col class="review-table__col-status" />
 		</colgroup>
 		<thead>
 			<tr>
 				<th scope="col"><span class="visually-hidden">Cover</span></th>
 				<th scope="col"><button type="button" class="sort" data-sort="title">Game</button></th>
 				<th scope="col"><button type="button" class="sort" data-sort="year">Year</button></th>
-				<th scope="col">Platform</th>
+				<th scope="col">
+					<div class="platform-filter">
+						<button
+							type="button"
+							class="platform-filter__button"
+							id="platform-filter-button"
+							aria-haspopup="true"
+							aria-expanded="false"
+							aria-controls="platform-filter-menu"
+						>
+							Platform <span class="platform-filter__arrow" aria-hidden="true">{"▾"}</span>
+						</button>
+						<div class="platform-filter__menu" id="platform-filter-menu" hidden>
+							{
+								PLATFORM_OPTIONS.map((option) => (
+									<label class="platform-filter__option">
+										<input type="checkbox" value={option} />
+										{option}
+									</label>
+								))
+							}
+						</div>
+					</div>
+				</th>
 				<th scope="col">Overall rating</th>
 				<th scope="col">Enjoyment rating</th>
 				<th scope="col">Status</th>
@@ -171,12 +195,16 @@ const collage = reviews.filter((r) => r.data.cover).slice(0, 12);
 	}
 
 	.review-table__col-platform {
-		width: 10%;
+		width: 18%;
 	}
 
 	.review-table__col-overall,
 	.review-table__col-enjoyment {
 		width: 18%;
+	}
+
+	.review-table__col-status {
+		width: 9%;
 	}
 
 	.review-table th {
@@ -200,6 +228,9 @@ const collage = reviews.filter((r) => r.data.cover).slice(0, 12);
 
 	.sort::after {
 		content: " \2195";
+		display: inline-block;
+		font-size: 1.3em;
+		font-weight: 900;
 		color: var(--color-highlight);
 	}
 
@@ -209,6 +240,60 @@ const collage = reviews.filter((r) => r.data.cover).slice(0, 12);
 
 	.sort[data-direction="desc"]::after {
 		content: " \2193";
+	}
+
+	.platform-filter {
+		position: relative;
+		display: inline-block;
+	}
+
+	.platform-filter__button {
+		padding: 0;
+		background: none;
+		border: 0;
+		color: inherit;
+		font: inherit;
+		text-transform: inherit;
+		cursor: pointer;
+	}
+
+	.platform-filter__arrow {
+		display: inline-block;
+		font-size: 1.3em;
+		font-weight: 900;
+		color: var(--color-highlight);
+	}
+
+	.platform-filter__menu {
+		position: absolute;
+		top: calc(100% + var(--space-2));
+		left: 0;
+		z-index: 1;
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-1);
+		min-width: 10rem;
+		padding: var(--space-2);
+		background: var(--color-surface);
+		border: 1px solid var(--color-border-strong);
+		border-radius: var(--radius);
+		box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.4);
+	}
+
+	.platform-filter__option {
+		display: flex;
+		align-items: center;
+		gap: var(--space-2);
+		padding: var(--space-1) var(--space-2);
+		font-weight: normal;
+		text-transform: none;
+		color: var(--color-text);
+		cursor: pointer;
+		border-radius: var(--radius);
+	}
+
+	.platform-filter__option:hover {
+		background: var(--color-surface-hover);
 	}
 
 	.review-table__empty {
@@ -247,14 +332,24 @@ const collage = reviews.filter((r) => r.data.cover).slice(0, 12);
 	let query = new URLSearchParams(location.search).get("q")?.toLowerCase().trim() ?? "";
 	if (searchInput && query) searchInput.value = query;
 
+	// The platform dropdown: a set of the platform names currently ticked.
+	// An empty set means no restriction, so every platform matches.
+	const platformButton = document.querySelector<HTMLButtonElement>("#platform-filter-button")!;
+	const platformMenu = document.querySelector<HTMLElement>("#platform-filter-menu")!;
+	const platformCheckboxes = Array.from(platformMenu.querySelectorAll<HTMLInputElement>('input[type="checkbox"]'));
+	const selectedPlatforms = new Set<string>();
+
 	function applyFilters() {
 		let visible = 0;
 		for (const row of rows) {
 			const status = row.dataset.status ?? "";
 			const matchesTab = filter === "all" || status === "Completed" || status === "100%";
-			const text = `${row.dataset.title} ${row.dataset.platform}`;
+			const platforms = (row.dataset.platforms ?? "").split(",");
+			const matchesPlatform =
+				selectedPlatforms.size === 0 || platforms.some((p) => selectedPlatforms.has(p));
+			const text = `${row.dataset.title} ${row.dataset.platforms}`;
 			const matchesSearch = !query || text.includes(query);
-			row.hidden = !(matchesTab && matchesSearch);
+			row.hidden = !(matchesTab && matchesPlatform && matchesSearch);
 			// The detail row simply follows the review row; whether it is open or
 			// closed is handled separately, by setOpen below.
 			detailFor(row).hidden = row.hidden;
@@ -277,6 +372,31 @@ const collage = reviews.filter((r) => r.data.cover).slice(0, 12);
 		applyFilters();
 	});
 	searchInput?.form?.addEventListener("submit", (event) => event.preventDefault());
+
+	// Open and close the platform dropdown, and close it when clicking outside.
+	platformButton.addEventListener("click", (event) => {
+		event.stopPropagation();
+		const open = platformMenu.hidden;
+		platformMenu.hidden = !open;
+		platformButton.setAttribute("aria-expanded", String(open));
+	});
+	document.addEventListener("click", (event) => {
+		if (!platformMenu.hidden && !platformMenu.contains(event.target as Node) && event.target !== platformButton) {
+			platformMenu.hidden = true;
+			platformButton.setAttribute("aria-expanded", "false");
+		}
+	});
+
+	for (const checkbox of platformCheckboxes) {
+		checkbox.addEventListener("change", () => {
+			if (checkbox.checked) {
+				selectedPlatforms.add(checkbox.value.toLowerCase());
+			} else {
+				selectedPlatforms.delete(checkbox.value.toLowerCase());
+			}
+			applyFilters();
+		});
+	}
 
 	// Clicking anywhere on a row opens or closes its detail panel, animating
 	// the height instead of showing or hiding it immediately.

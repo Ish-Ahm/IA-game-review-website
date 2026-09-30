@@ -27,7 +27,7 @@ npm run preview  # preview the built site
    | `developer` | Optional. The studio that made the game. Can be left blank |
    | `summary` | Optional. A short, spoiler-free summary shown in the review list. If left blank, the site uses the first paragraph of your review instead |
    | `year` | Optional. Release year of the game, for example `2019`. Can be left blank |
-   | `platform` | Any text, for example `PC` or `PS5` |
+   | `platform` | One or more platforms, in square brackets, for example `[PC, PS4]`. The allowed names are PC, PS4, PS5, Switch, Steam Deck and Xbox |
    | `status` | `Completed`, `100%`, `Playing` or `Dropped` |
    | `cover` | Optional. Path such as `../covers/elden-ring.jpg` (the `..` steps up out of `entries`). Delete the line if there is no cover |
 
