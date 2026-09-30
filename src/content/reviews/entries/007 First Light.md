@@ -10,7 +10,6 @@ enjoyment: 9.5/10
 status: Completed
 summary: "A beautiful love child between Hitman and Uncharted that incorporates a fun combat system into the amazing level design IOI has presented before in their Hitman games.\n\nStory is great (limited experience with 007 movies in general, so take it with a grain of salt), and very fitting with today's technology.\n\nOnly issues for me is the level design can be TOO linear at times especially when comparing to Hitman (which yeah is unfair cause it isn't a Hitman game), and the game in general felt too easy even at the hardest difficulty. Overall, a really fun ride to experience."
 ---
-
 IOI surprises us with an amazing linear action game that is the lovechild of both Uncharted and Hitman, my favorite 2 game franchises.
 
 I have played Hitman World of Assassination trilogy a LOT at this point, it is truly one of the best stealth sandbox games ever made (play it please if you love stealth games). I was thus excited for anything IOI would make, and a James Bond game sounded amazing with their espionage experience.
