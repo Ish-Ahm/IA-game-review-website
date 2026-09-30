@@ -1,6 +1,7 @@
 ---
 title: 007 First Light
-cover: ../covers/007 First Light.png
+cover: ../covers/full/007 First Light.png
+coverSquare: ../covers/square/007 First Light_Square.png
 developer: IO Interactive
 year: 2026
 platform: [PC]

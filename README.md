@@ -29,7 +29,8 @@ npm run preview  # preview the built site
    | `year` | Optional. Release year of the game, for example `2019`. Can be left blank |
    | `platform` | One or more platforms, in square brackets, for example `[PC, PS4]`. The allowed names are PC, PS4, PS5, Switch, Steam Deck and Xbox |
    | `status` | `Completed`, `100%`, `Playing` or `Dropped` |
-   | `cover` | Optional. Path such as `../covers/elden-ring.jpg` (the `..` steps up out of `entries`). Delete the line if there is no cover |
+   | `cover` | Optional. Path such as `../covers/full/elden-ring.jpg` (the `..` steps up out of `entries`). Delete the line if there is no cover |
+   | `coverSquare` | Optional. A square crop, such as `../covers/square/elden-ring.jpg`, used for the small thumbnail in the review list. If left blank, the list reuses `cover` instead |
 
 4. Write your review below the frontmatter, using standard Markdown (no `[[wikilinks]]`).
    To hide story details, wrap them in the spoiler block that the template includes. It appears as a collapsed "Spoilers" box on the site, and readers click to open it:
@@ -44,7 +45,7 @@ npm run preview  # preview the built site
    ```
 
    Keep the blank lines inside the block, or the Markdown formatting will not work.
-5. Put cover images in `src/content/reviews/covers/`.
+5. Put the tall cover in `src/content/reviews/covers/full/`, and a square crop of it (if you have one) in `src/content/reviews/covers/square/`.
 6. Commit and push. Cloudflare Pages rebuilds the site automatically.
 
 Only `.md` files directly inside `reviews/entries` become reviews, so notes kept elsewhere (for example a to-do list in `reviews/`) are ignored.
@@ -81,5 +82,7 @@ src/
     ├── _templates/Review.md
     └── reviews/
         ├── entries/    one Markdown file per game
-        └── covers/     cover images
+        └── covers/
+            ├── full/      tall covers, shown on the review page
+            └── square/    square crops, shown as the list thumbnail
 ```

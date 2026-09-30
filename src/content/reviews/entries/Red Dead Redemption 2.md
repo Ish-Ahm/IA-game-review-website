@@ -1,6 +1,7 @@
 ---
 title: Red Dead Redemption 2
-cover: ../covers/RDR2.png
+cover: ../covers/full/RDR2.png
+coverSquare: ../covers/square/RDR2_Square.png
 developer: Rockstar Games
 year: 2018
 platform: [PC]

@@ -34,6 +34,9 @@ const reviews = defineCollection({
 			enjoyment: z.string().trim().nullish(),
 			// A blank or missing cover shows an empty box instead.
 			cover: image().nullish(),
+			// A square crop of the cover, used for the small thumbnail in the
+			// review list. Falls back to the cover above if left blank.
+			coverSquare: image().nullish(),
 		}),
 });
 

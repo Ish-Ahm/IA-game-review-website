@@ -66,7 +66,8 @@ src/
         ├── entries/
         │   └── <Game Title>.md
         └── covers/
-            └── <image files>
+            ├── full/       ← tall covers, shown on the review page
+            └── square/     ← square crops, shown as the list thumbnail
 ```
 
 ## Review schema
@@ -83,7 +84,8 @@ Each review file has YAML frontmatter with these fields:
 | `year` | number | no | Release year of the game |
 | `platform` | array of strings | yes | One or more of the values in `PLATFORM_OPTIONS` (content.config.ts), for example `[PC, PS4]` |
 | `status` | enum | yes | `Completed`, `100%`, `Playing`, `Dropped` |
-| `cover` | image | no | Relative path such as `../covers/game-name.jpg` (reviews live in `reviews/entries`), use Astro's `image()` helper |
+| `cover` | image | no | Relative path such as `../covers/full/game-name.jpg`, use Astro's `image()` helper |
+| `coverSquare` | image | no | A square crop, such as `../covers/square/game-name.jpg`, used for the small thumbnail in the review list. Falls back to `cover` if left blank |
 
 Rules for the schema:
 

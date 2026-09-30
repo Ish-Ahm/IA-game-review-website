@@ -1,6 +1,7 @@
 ---
 title: Marvel's Spider-Man
-cover: ../covers/Spider-Man PS4.png
+cover: ../covers/full/Spider-Man PS4.png
+coverSquare: ../covers/square/Spider-Man PS4_Square.png
 developer: Insomniac Games
 year: 2018
 platform: [PS4, PC]

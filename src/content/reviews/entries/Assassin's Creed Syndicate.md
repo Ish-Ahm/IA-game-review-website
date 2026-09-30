@@ -1,6 +1,7 @@
 ---
 title: Assassin's Creed Syndicate
-cover: ../covers/ACSyndicate.png
+cover: ../covers/full/ACSyndicate.png
+coverSquare: ../covers/square/ACSyndicate_Square.png
 developer: Ubisoft Quebec
 year: 2015
 platform: [PS4, PC]

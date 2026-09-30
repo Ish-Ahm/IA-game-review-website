@@ -8,8 +8,11 @@ interface Props {
 }
 
 const { review } = Astro.props;
-const { title, rating, enjoyment, year, developer, platform, status, cover, summary } = review.data;
+const { title, rating, enjoyment, year, developer, platform, status, cover, coverSquare, summary } = review.data;
 const href = `/reviews/${review.id}`;
+// The small thumbnail in the table uses the square crop if there is one,
+// otherwise it falls back to the regular cover.
+const thumbnail = coverSquare ?? cover;
 const platformText = platform.join(", ");
 // The line under the title, for example "Remedy Entertainment · 2019 · PS5 · Completed".
 // Anything left blank is skipped.
@@ -43,8 +46,8 @@ const excerpt = summary?.trim() || autoExcerpt;
 	<td class="review-row__cover">
 		<span class="review-row__thumb">
 			{
-				cover ? (
-					<Image src={cover} alt="" width={64} height={88} class="review-row__image" />
+				thumbnail ? (
+					<Image src={thumbnail} alt="" width={64} height={64} class="review-row__image" />
 				) : (
 					<span class="review-row__placeholder"></span>
 				)
@@ -131,8 +134,8 @@ const excerpt = summary?.trim() || autoExcerpt;
 
 	.review-row__thumb {
 		display: block;
-		width: 2rem;
-		height: 2.75rem;
+		width: 2.25rem;
+		height: 2.25rem;
 	}
 
 	.review-row__image,
