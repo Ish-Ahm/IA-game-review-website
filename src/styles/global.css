@@ -17,7 +17,7 @@
 	--font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
 
 	/* Overall scale: everything is sized in rem, so this scales the whole site */
-	--root-font-size: 87.5%;
+	--root-font-size: 125%;
 
 	/* Layout */
 	--content-max-width: 82rem;
